@@ -19,77 +19,72 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 py-4">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Outer Rounded Container */}
-        <div className="bg-[#4c8380] rounded-xl shadow-md flex items-center justify-between px-6 py-3">
-          
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <Image
-              src="/images/logo.png"
-              alt="VeBlyss Global Logo"
-              width={40}
-              height={40}
-            />
-            <div className="leading-tight text-white">
-              <h1 className="text-lg font-bold tracking-wide">VeBlyss Global</h1>
-              <p className="text-xs font-light italic">
-                Lifestyle. Fashion. Home & Beyond
-              </p>
-            </div>
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4">
+      {/* Outer Rounded Container */}
+      <div className="bg-[#4c8380] rounded-xl shadow-md flex items-center justify-between px-6 py-3">
+        {/* Logo */}
+        <div className="flex items-center space-x-3">
+          <Image
+            src="/images/logo.png"
+            alt="VeBlyss Global Logo"
+            width={40}
+            height={40}
+          />
+          <div className="leading-tight text-white">
+            <h1 className="text-lg font-bold tracking-wide">VeBlyss Global</h1>
+            <p className="text-xs font-light italic">
+              Lifestyle. Fashion. Home & Beyond
+            </p>
           </div>
-
-          {/* Desktop Links */}
-          <div className="hidden sm:flex space-x-4 text-white">
-            {navLinks.map((link, index) => (
-              <div key={link.name} className="flex items-center">
-                <Link
-                  href={link.path}
-                  className={`transition-colors ${
-                    pathname === link.path
-                      ? "font-bold"
-                      : "font-normal hover:font-bold"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-                {index !== navLinks.length - 1 && (
-                  <span className="mx-2">|</span>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile Hamburger */}
-          <button
-            className="sm:hidden text-white"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
 
-        {/* Mobile Dropdown */}
-        {isOpen && (
-          <div className="sm:hidden mt-2 bg-[#4f8685] rounded-xl shadow-md flex flex-col items-center py-4 space-y-3 text-white">
-            {navLinks.map((link) => (
+        {/* Desktop Links */}
+        <div className="hidden sm:flex space-x-4 text-white">
+          {navLinks.map((link, index) => (
+            <div key={link.name} className="flex items-center">
               <Link
-                key={link.name}
                 href={link.path}
-                className={`${
+                className={`transition-colors ${
                   pathname === link.path
                     ? "font-bold"
                     : "font-normal hover:font-bold"
                 }`}
-                onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
-            ))}
-          </div>
-        )}
+              {index !== navLinks.length - 1 && <span className="mx-2">|</span>}
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="sm:hidden text-white"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile Dropdown */}
+      {isOpen && (
+        <div className="sm:hidden mt-2 bg-[#4f8685] rounded-xl shadow-md flex flex-col items-center py-4 space-y-3 text-white">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.path}
+              className={`${
+                pathname === link.path
+                  ? "font-bold"
+                  : "font-normal hover:font-bold"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };
