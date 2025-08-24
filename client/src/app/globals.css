@@ -2,13 +2,3 @@
 ::-webkit-scrollbar {
     display: none;
 }
-
-body {
-    background-image: url('/images/background.png');
-    background-size: cover;
-    background-position: center;
-}
-
-body > div {
-    margin-bottom: 10px;
-}
