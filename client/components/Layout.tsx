@@ -26,7 +26,7 @@ export function Layout({ children }: LayoutProps) {
     <div className="min-h-screen" style={{backgroundColor: '#FAF9F6'}}>
       {/* Navigation Header */}
       <header className="relative">
-        <nav className="bg-veblyssPrimary rounded-xl mx-4 md:mx-12 mt-6 px-4 py-4">
+        <nav className="rounded-xl mx-4 md:mx-12 mt-6 px-4 py-4" style={{backgroundColor: '#368581'}}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex-shrink-0">
