@@ -4,6 +4,7 @@ import { Index } from "./pages/Index";
 import { NotFound } from "./pages/NotFound";
 import { About } from "./pages/About";
 import { VisionMission } from "./pages/VisionMission";
+import { Products } from "./pages/Products";
 import { LeatherProducts } from "./pages/LeatherProducts";
 import { CopperProducts } from "./pages/CopperProducts";
 import { ImitationJewelry } from "./pages/ImitationJewelry";
