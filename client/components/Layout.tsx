@@ -23,7 +23,7 @@ export function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-veblyssBackground">
+    <div className="min-h-screen" style={{backgroundColor: '#FAF9F6'}}>
       {/* Navigation Header */}
       <header className="relative">
         <nav className="bg-veblyssPrimary rounded-xl mx-4 md:mx-12 mt-6 px-4 py-4">
