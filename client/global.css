@@ -103,10 +103,13 @@
   }
 
   body {
-    @apply bg-veblyssBackground text-veblyssText font-opensans;
+    @apply bg-background text-foreground;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FAF9F6;
+    color: #222;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair;
+    font-family: 'Playfair Display', serif;
   }
 }
