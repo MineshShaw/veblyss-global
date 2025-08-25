@@ -1,35 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export function LeatherProducts() {
   const products = [
-    { name: 'Premium Leather Bags', id: 1 },
-    { name: 'Handcrafted Wallets', id: 2 },
-    { name: 'Leather Belts', id: 3 },
-    { name: 'Travel Accessories', id: 4 },
-    { name: 'Leather Jackets', id: 5 },
-    { name: 'Executive Portfolios', id: 6 },
+    { name: "Premium Leather Bags", id: 1 },
+    { name: "Handcrafted Wallets", id: 2 },
+    { name: "Leather Belts", id: 3 },
+    { name: "Travel Accessories", id: 4 },
+    { name: "Leather Jackets", id: 5 },
+    { name: "Executive Portfolios", id: 6 },
   ];
 
   const whyChooseFeatures = [
-    'Private Label Services Available',
-    'Skilled Handcrafted Detailing',
-    'International Durability Standards'
+    "Private Label Services Available",
+    "Skilled Handcrafted Detailing",
+    "International Durability Standards",
   ];
 
   const idealFor = [
-    'Fashion Retailers',
-    'Corporate Gifts',
-    'Luxury Boutiques',
-    'E-commerce Stores',
-    'Wholesale Distributors',
-    'Export Companies'
+    "Fashion Retailers",
+    "Corporate Gifts",
+    "Luxury Boutiques",
+    "E-commerce Stores",
+    "Wholesale Distributors",
+    "Export Companies",
   ];
 
   const relatedCategories = [
-    { name: 'Copper Products', href: '/products/copper' },
-    { name: 'Imitation Jewelry', href: '/products/imitation-jewelry' },
-    { name: 'Handicrafts', href: '/products/handicrafts' },
-    { name: 'Sustainable Products', href: '/products/sustainable' },
+    { name: "Copper Products", href: "/products/copper" },
+    { name: "Imitation Jewelry", href: "/products/imitation-jewelry" },
+    { name: "Handicrafts", href: "/products/handicrafts" },
+    { name: "Sustainable Products", href: "/products/sustainable" },
   ];
 
   return (
@@ -59,8 +59,9 @@ export function LeatherProducts() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="font-playfair font-normal text-4xl text-veblyssText mb-8">
-              Premium Indian leather goods combining traditional craftsmanship with modern design, 
-              perfect for global markets seeking quality and authenticity.
+              Premium Indian leather goods combining traditional craftsmanship
+              with modern design, perfect for global markets seeking quality and
+              authenticity.
             </h2>
           </div>
         </div>
@@ -76,7 +77,10 @@ export function LeatherProducts() {
           {/* First Row - 3 Products */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {products.slice(0, 3).map((product) => (
-              <div key={product.id} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={product.id}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>
@@ -95,7 +99,10 @@ export function LeatherProducts() {
           {/* Second Row - 3 Products */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.slice(3, 6).map((product) => (
-              <div key={product.id} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={product.id}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>
@@ -122,7 +129,7 @@ export function LeatherProducts() {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4">
           <h2 className="font-playfair font-bold text-4xl lg:text-5xl text-veblyssPrimary text-center mb-12">
             Why Choose Our Leather Products
@@ -130,7 +137,10 @@ export function LeatherProducts() {
 
           <div className="flex flex-wrap justify-center gap-8">
             {whyChooseFeatures.map((feature, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
                 <h3 className="font-playfair font-bold text-xl text-veblyssText text-center">
                   {feature}
                 </h3>
@@ -149,7 +159,10 @@ export function LeatherProducts() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {idealFor.map((item, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
                 <h3 className="font-playfair font-bold text-xl text-veblyssText text-center">
                   {item}
                 </h3>
@@ -164,7 +177,10 @@ export function LeatherProducts() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {relatedCategories.map((category) => (
-              <div key={category.name} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={category.name}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-64 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>

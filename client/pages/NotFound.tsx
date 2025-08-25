@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export function NotFound() {
   return (
@@ -12,9 +12,10 @@ export function NotFound() {
             Page Not Found
           </h2>
           <p className="font-opensans text-lg text-veblyssText mb-8 leading-relaxed">
-            The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+            The page you're looking for doesn't exist. It might have been moved,
+            deleted, or you entered the wrong URL.
           </p>
-          
+
           <div className="space-y-4">
             <Link
               to="/"
@@ -35,11 +36,36 @@ export function NotFound() {
               Looking for our product categories?
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/products/leather" className="text-veblyssPrimary hover:underline">Leather Products</Link>
-              <Link to="/products/copper" className="text-veblyssPrimary hover:underline">Copper Products</Link>
-              <Link to="/products/imitation-jewelry" className="text-veblyssPrimary hover:underline">Imitation Jewelry</Link>
-              <Link to="/products/handicrafts" className="text-veblyssPrimary hover:underline">Indian Handicrafts</Link>
-              <Link to="/products/sustainable" className="text-veblyssPrimary hover:underline">Sustainable Products</Link>
+              <Link
+                to="/products/leather"
+                className="text-veblyssPrimary hover:underline"
+              >
+                Leather Products
+              </Link>
+              <Link
+                to="/products/copper"
+                className="text-veblyssPrimary hover:underline"
+              >
+                Copper Products
+              </Link>
+              <Link
+                to="/products/imitation-jewelry"
+                className="text-veblyssPrimary hover:underline"
+              >
+                Imitation Jewelry
+              </Link>
+              <Link
+                to="/products/handicrafts"
+                className="text-veblyssPrimary hover:underline"
+              >
+                Indian Handicrafts
+              </Link>
+              <Link
+                to="/products/sustainable"
+                className="text-veblyssPrimary hover:underline"
+              >
+                Sustainable Products
+              </Link>
             </div>
           </div>
         </div>

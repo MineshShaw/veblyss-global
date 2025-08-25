@@ -1,38 +1,38 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export function About() {
   const exportProducts = [
-    { name: 'Leather Goods', href: '/products/leather' },
-    { name: 'Copper Products', href: '/products/copper' },
-    { name: 'Imitation Jewelry', href: '/products/imitation-jewelry' },
-    { name: 'Handicrafts', href: '/products/handicrafts' },
-    { name: 'Sustainable Products', href: '/products/sustainable' },
+    { name: "Leather Goods", href: "/products/leather" },
+    { name: "Copper Products", href: "/products/copper" },
+    { name: "Imitation Jewelry", href: "/products/imitation-jewelry" },
+    { name: "Handicrafts", href: "/products/handicrafts" },
+    { name: "Sustainable Products", href: "/products/sustainable" },
   ];
 
   const trustFeatures = [
     {
-      title: 'End-to-End Export Support',
-      description: 'From documentation to doorstep delivery'
+      title: "End-to-End Export Support",
+      description: "From documentation to doorstep delivery",
     },
     {
-      title: 'Certified & Compliant',
-      description: 'REACH, RoHS, CE, FSSAI, BIS (where applicable)'
+      title: "Certified & Compliant",
+      description: "REACH, RoHS, CE, FSSAI, BIS (where applicable)",
     },
     {
-      title: 'Custom Design & Private Label',
-      description: 'Tailored for global retailers and brands'
+      title: "Custom Design & Private Label",
+      description: "Tailored for global retailers and brands",
     },
     {
-      title: 'Ethical & Sustainable Sourcing',
-      description: 'Supporting artisans and eco-friendly practices'
+      title: "Ethical & Sustainable Sourcing",
+      description: "Supporting artisans and eco-friendly practices",
     },
     {
-      title: 'Eco-Friendly Packaging',
-      description: 'Prioritising sustainability at every step'
+      title: "Eco-Friendly Packaging",
+      description: "Prioritising sustainability at every step",
     },
     {
-      title: 'Timely Delivery & Quality Assurance',
-      description: 'Trusted across EU, US, Middle East, and Africa'
+      title: "Timely Delivery & Quality Assurance",
+      description: "Trusted across EU, US, Middle East, and Africa",
     },
   ];
 
@@ -69,16 +69,20 @@ export function About() {
               </h2>
               <div className="space-y-6">
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  At VeBlyss Global, we are committed to delivering handpicked, high-quality products to global 
-                  markets. From artisan-made leather goods to eco-conscious lifestyle products, we blend Indian 
-                  tradition with international taste, ensuring every shipment meets global quality, compliance, 
-                  and design expectations.
+                  At VeBlyss Global, we are committed to delivering handpicked,
+                  high-quality products to global markets. From artisan-made
+                  leather goods to eco-conscious lifestyle products, we blend
+                  Indian tradition with international taste, ensuring every
+                  shipment meets global quality, compliance, and design
+                  expectations.
                 </p>
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  We specialize in the global trade of premium-quality Imitation Jewelry, Genuine Leather Products, 
-                  Handicrafts & Home Décor, and Copper Products from India. Our team bridges tradition and trend, 
-                  ensuring that our clients receive products that are stylish, durable, and competitively priced—backed 
-                  by industry certifications and international standards.
+                  We specialize in the global trade of premium-quality Imitation
+                  Jewelry, Genuine Leather Products, Handicrafts & Home Décor,
+                  and Copper Products from India. Our team bridges tradition and
+                  trend, ensuring that our clients receive products that are
+                  stylish, durable, and competitively priced—backed by industry
+                  certifications and international standards.
                 </p>
               </div>
             </div>
@@ -104,17 +108,21 @@ export function About() {
             <div className="lg:w-1/2 space-y-8">
               <div className="space-y-6">
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  Our operations are guided by integrity, compliance, sustainability, and customer-centrality, 
-                  ensuring that every transaction builds long-term trust and mutual growth.
+                  Our operations are guided by integrity, compliance,
+                  sustainability, and customer-centrality, ensuring that every
+                  transaction builds long-term trust and mutual growth.
                 </p>
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  Based in Bengaluru, India, the heart of traditional craftsmanship and modern manufacturing, 
-                  VeBlyss is driven by a mission to make India's best products accessible to the world. Our team 
-                  specializes in curating, sourcing, and exporting leather goods, copper ware, imitation jewelry, 
-                  handicrafts, and sustainable products to clients across the globe.
+                  Based in Bengaluru, India, the heart of traditional
+                  craftsmanship and modern manufacturing, VeBlyss is driven by a
+                  mission to make India's best products accessible to the world.
+                  Our team specializes in curating, sourcing, and exporting
+                  leather goods, copper ware, imitation jewelry, handicrafts,
+                  and sustainable products to clients across the globe.
                 </p>
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  We don't just export products we deliver excellence, compliance, and reliability in every container.
+                  We don't just export products we deliver excellence,
+                  compliance, and reliability in every container.
                 </p>
               </div>
             </div>
@@ -130,15 +138,20 @@ export function About() {
             <div className="lg:w-1/2 space-y-8">
               <div className="space-y-6">
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  Our vision at VeBlyss Global, our vision is to become a global leader in exporting India's finest 
-                  fashion, lifestyle, and essential products. We are committed to showcasing the richness of Indian 
-                  craftsmanship and quality—delivering unmatched trust, authenticity, and value to clients across the world.
+                  Our vision at VeBlyss Global, our vision is to become a global
+                  leader in exporting India's finest fashion, lifestyle, and
+                  essential products. We are committed to showcasing the
+                  richness of Indian craftsmanship and quality—delivering
+                  unmatched trust, authenticity, and value to clients across the
+                  world.
                 </p>
                 <p className="font-opensans text-lg text-veblyssText leading-relaxed">
-                  Our mission is to aim to empower Indian artisans and manufacturers by extending their reach to 
-                  international markets. By delivering high-quality, sustainable, and ethically sourced products, 
-                  we strive to represent the heart of Indian heritage while building long-term partnerships grounded 
-                  in integrity and excellence.
+                  Our mission is to aim to empower Indian artisans and
+                  manufacturers by extending their reach to international
+                  markets. By delivering high-quality, sustainable, and
+                  ethically sourced products, we strive to represent the heart
+                  of Indian heritage while building long-term partnerships
+                  grounded in integrity and excellence.
                 </p>
               </div>
             </div>
@@ -160,7 +173,10 @@ export function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {exportProducts.map((product, index) => (
-              <div key={product.name} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={product.name}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-56 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>
@@ -190,7 +206,7 @@ export function About() {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4">
           <h2 className="font-playfair font-bold text-4xl lg:text-5xl text-veblyssPrimary text-center mb-12">
             Why Clients Trust VeBlyss
@@ -198,7 +214,10 @@ export function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {trustFeatures.map((feature, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
                 <h3 className="font-playfair font-bold text-xl text-veblyssText text-center mb-4">
                   {feature.title}
                 </h3>

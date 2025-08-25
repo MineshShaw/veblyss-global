@@ -1,35 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export function SustainableProducts() {
   const products = [
-    { name: 'Bamboo Household Items', id: 1 },
-    { name: 'Organic Cotton Textiles', id: 2 },
-    { name: 'Eco-Friendly Packaging', id: 3 },
-    { name: 'Biodegradable Tableware', id: 4 },
-    { name: 'Recycled Paper Products', id: 5 },
-    { name: 'Natural Fiber Bags', id: 6 },
+    { name: "Bamboo Household Items", id: 1 },
+    { name: "Organic Cotton Textiles", id: 2 },
+    { name: "Eco-Friendly Packaging", id: 3 },
+    { name: "Biodegradable Tableware", id: 4 },
+    { name: "Recycled Paper Products", id: 5 },
+    { name: "Natural Fiber Bags", id: 6 },
   ];
 
   const whyChooseFeatures = [
-    'Eco-Certified Materials',
-    'Carbon Neutral Production',
-    'Biodegradable & Compostable'
+    "Eco-Certified Materials",
+    "Carbon Neutral Production",
+    "Biodegradable & Compostable",
   ];
 
   const idealFor = [
-    'Eco-Conscious Retailers',
-    'Green Lifestyle Stores',
-    'Corporate Sustainability',
-    'Environmental Organizations',
-    'Zero-Waste Businesses',
-    'Conscious Consumers'
+    "Eco-Conscious Retailers",
+    "Green Lifestyle Stores",
+    "Corporate Sustainability",
+    "Environmental Organizations",
+    "Zero-Waste Businesses",
+    "Conscious Consumers",
   ];
 
   const relatedCategories = [
-    { name: 'Leather Products', href: '/products/leather' },
-    { name: 'Copper Products', href: '/products/copper' },
-    { name: 'Imitation Jewelry', href: '/products/imitation-jewelry' },
-    { name: 'Handicrafts', href: '/products/handicrafts' },
+    { name: "Leather Products", href: "/products/leather" },
+    { name: "Copper Products", href: "/products/copper" },
+    { name: "Imitation Jewelry", href: "/products/imitation-jewelry" },
+    { name: "Handicrafts", href: "/products/handicrafts" },
   ];
 
   return (
@@ -57,8 +57,9 @@ export function SustainableProducts() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="font-playfair font-normal text-4xl text-veblyssText mb-8">
-              Eco-friendly Indian products made from sustainable materials and processes, 
-              supporting environmental conservation while meeting modern lifestyle needs.
+              Eco-friendly Indian products made from sustainable materials and
+              processes, supporting environmental conservation while meeting
+              modern lifestyle needs.
             </h2>
           </div>
         </div>
@@ -73,7 +74,10 @@ export function SustainableProducts() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {products.slice(0, 3).map((product) => (
-              <div key={product.id} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={product.id}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>
@@ -91,7 +95,10 @@ export function SustainableProducts() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {products.slice(3, 6).map((product) => (
-              <div key={product.id} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={product.id}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>
@@ -118,7 +125,7 @@ export function SustainableProducts() {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4">
           <h2 className="font-playfair font-bold text-4xl lg:text-5xl text-veblyssPrimary text-center mb-12">
             Why Choose Our Sustainable Products
@@ -126,7 +133,10 @@ export function SustainableProducts() {
 
           <div className="flex flex-wrap justify-center gap-8">
             {whyChooseFeatures.map((feature, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
                 <h3 className="font-playfair font-bold text-xl text-veblyssText text-center">
                   {feature}
                 </h3>
@@ -145,7 +155,10 @@ export function SustainableProducts() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {idealFor.map((item, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              >
                 <h3 className="font-playfair font-bold text-xl text-veblyssText text-center">
                   {item}
                 </h3>
@@ -160,7 +173,10 @@ export function SustainableProducts() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {relatedCategories.map((category) => (
-              <div key={category.name} className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300">
+              <div
+                key={category.name}
+                className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+              >
                 <div className="h-64 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300"></div>
                 </div>

@@ -14,7 +14,8 @@ export function Contact() {
             Contact Us
           </h1>
           <p className="font-opensans font-semibold text-xl md:text-2xl text-veblyssTextLight max-w-3xl">
-            Ready to explore our premium Indian exports? Let's build a partnership.
+            Ready to explore our premium Indian exports? Let's build a
+            partnership.
           </p>
         </div>
       </section>
@@ -28,7 +29,7 @@ export function Contact() {
               <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-8">
                 Get In Touch
               </h2>
-              
+
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -131,15 +132,17 @@ export function Contact() {
                 <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-6">
                   VeBlyss Global Pvt Ltd
                 </h2>
-                
+
                 <div className="space-y-6">
                   <div>
                     <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2">
                       Head Office
                     </h3>
                     <p className="font-opensans text-veblyssText">
-                      Bengaluru, Karnataka, India<br />
-                      The heart of traditional craftsmanship and modern manufacturing
+                      Bengaluru, Karnataka, India
+                      <br />
+                      The heart of traditional craftsmanship and modern
+                      manufacturing
                     </p>
                   </div>
 
@@ -148,7 +151,8 @@ export function Contact() {
                       Email
                     </h3>
                     <p className="font-opensans text-veblyssText">
-                      info@veblyssglobal.com<br />
+                      info@veblyssglobal.com
+                      <br />
                       exports@veblyssglobal.com
                     </p>
                   </div>
@@ -158,7 +162,8 @@ export function Contact() {
                       Phone
                     </h3>
                     <p className="font-opensans text-veblyssText">
-                      +91 XXX XXX XXXX<br />
+                      +91 XXX XXX XXXX
+                      <br />
                       Available 9 AM - 6 PM IST
                     </p>
                   </div>
@@ -168,10 +173,16 @@ export function Contact() {
                       Social Media
                     </h3>
                     <div className="flex space-x-4">
-                      <a href="#" className="text-veblyssPrimary hover:text-opacity-80 transition-colors">
+                      <a
+                        href="#"
+                        className="text-veblyssPrimary hover:text-opacity-80 transition-colors"
+                      >
                         LinkedIn
                       </a>
-                      <a href="#" className="text-veblyssPrimary hover:text-opacity-80 transition-colors">
+                      <a
+                        href="#"
+                        className="text-veblyssPrimary hover:text-opacity-80 transition-colors"
+                      >
                         Instagram
                       </a>
                     </div>

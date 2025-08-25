@@ -64,8 +64,8 @@ export default {
         veblyssTextLight: "#FAF9F6",
       },
       fontFamily: {
-        playfair: ['Playfair Display', 'serif'],
-        opensans: ['Open Sans', 'sans-serif'],
+        playfair: ["Playfair Display", "serif"],
+        opensans: ["Open Sans", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

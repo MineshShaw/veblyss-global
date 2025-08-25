@@ -1,17 +1,17 @@
 export function VisionMission() {
   const driveValues = [
-    'Sustainability',
-    'Compliance', 
-    'Fair Trade',
-    'Reliability',
-    'Innovation'
+    "Sustainability",
+    "Compliance",
+    "Fair Trade",
+    "Reliability",
+    "Innovation",
   ];
 
   const visionLifeSteps = [
-    'Curate Artisan-Made Products',
-    'Ensure Global Compliance',
-    'Enable Private Labeling & Customization',
-    'Deliver Worldwide with Reliability'
+    "Curate Artisan-Made Products",
+    "Ensure Global Compliance",
+    "Enable Private Labeling & Customization",
+    "Deliver Worldwide with Reliability",
   ];
 
   return (
@@ -46,15 +46,18 @@ export function VisionMission() {
                 Our vision
               </h2>
               <p className="font-opensans text-lg text-veblyssTextLight leading-relaxed bg-veblyssPrimary bg-opacity-10 p-6 rounded-xl">
-                To be a global leader in exporting Indian-crafted fashion, lifestyle, and essential products—delivering 
-                trust and value to every client.
+                To be a global leader in exporting Indian-crafted fashion,
+                lifestyle, and essential products—delivering trust and value to
+                every client.
               </p>
             </div>
 
             {/* Illustration */}
             <div className="lg:w-1/2">
               <div className="w-full h-64 bg-gray-300 rounded-xl flex items-center justify-center">
-                <span className="text-veblyssTextLight font-opensans text-lg">illustration</span>
+                <span className="text-veblyssTextLight font-opensans text-lg">
+                  illustration
+                </span>
               </div>
             </div>
           </div>
@@ -77,16 +80,20 @@ export function VisionMission() {
               </h2>
               <div className="space-y-4 bg-veblyssPrimary bg-opacity-10 p-6 rounded-xl">
                 <p className="font-opensans text-lg text-veblyssTextLight leading-relaxed">
-                  To empower Indian artisans and manufacturers by giving them global reach
+                  To empower Indian artisans and manufacturers by giving them
+                  global reach
                 </p>
                 <p className="font-opensans text-lg text-veblyssTextLight leading-relaxed">
-                  To deliver high-quality, sustainable and ethically sourced products from India
+                  To deliver high-quality, sustainable and ethically sourced
+                  products from India
                 </p>
                 <p className="font-opensans text-lg text-veblyssTextLight leading-relaxed">
-                  To align every product with international design and compliance standards
+                  To align every product with international design and
+                  compliance standards
                 </p>
                 <p className="font-opensans text-lg text-veblyssTextLight leading-relaxed">
-                  To build long-term value for clients through trust, transparency, and excellence
+                  To build long-term value for clients through trust,
+                  transparency, and excellence
                 </p>
               </div>
             </div>
@@ -103,7 +110,7 @@ export function VisionMission() {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4">
           <h2 className="font-playfair font-bold text-4xl lg:text-5xl text-veblyssPrimary text-center mb-12">
             What Drives Us
@@ -111,7 +118,10 @@ export function VisionMission() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {driveValues.map((value, index) => (
-              <div key={index} className="bg-veblyssBackground rounded-xl p-12 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+              <div
+                key={index}
+                className="bg-veblyssBackground rounded-xl p-12 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+              >
                 <h3 className="font-playfair font-bold text-3xl lg:text-4xl text-veblyssText">
                   {value}
                 </h3>
@@ -130,10 +140,13 @@ export function VisionMission() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {visionLifeSteps.map((step, index) => (
-              <div key={index} className="flex flex-col items-center text-center space-y-6">
+              <div
+                key={index}
+                className="flex flex-col items-center text-center space-y-6"
+              >
                 {/* Illustration */}
                 <div className="w-64 h-64 bg-gray-300 rounded-xl"></div>
-                
+
                 {/* Text */}
                 <h3 className="font-opensans font-normal text-2xl text-veblyssTextLight bg-veblyssPrimary bg-opacity-90 px-8 py-4 rounded-xl max-w-md">
                   {step}
@@ -162,8 +175,9 @@ export function VisionMission() {
           <div className="max-w-4xl mx-auto text-center">
             <blockquote className="font-playfair text-2xl lg:text-3xl text-veblyssPrimary leading-relaxed">
               <span className="font-bold">
-                "We believe India's true strength lies in its craftsmanship, and our goal is to share that 
-                strength with the world, sustainably and ethically."
+                "We believe India's true strength lies in its craftsmanship, and
+                our goal is to share that strength with the world, sustainably
+                and ethically."
               </span>
               <footer className="mt-8">
                 <cite className="font-normal text-xl">– VeBlyss</cite>

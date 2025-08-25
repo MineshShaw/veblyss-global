@@ -23,9 +23,15 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/leather" element={<LeatherProducts />} />
           <Route path="/products/copper" element={<CopperProducts />} />
-          <Route path="/products/imitation-jewelry" element={<ImitationJewelry />} />
+          <Route
+            path="/products/imitation-jewelry"
+            element={<ImitationJewelry />}
+          />
           <Route path="/products/handicrafts" element={<IndianHandicrafts />} />
-          <Route path="/products/sustainable" element={<SustainableProducts />} />
+          <Route
+            path="/products/sustainable"
+            element={<SustainableProducts />}
+          />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
