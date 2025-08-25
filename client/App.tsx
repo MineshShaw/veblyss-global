@@ -1,30 +1,36 @@
-import "./global.css";
-
-import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import { Layout } from "./components/Layout";
+import { Index } from "./pages/Index";
+import { NotFound } from "./pages/NotFound";
+import { About } from "./pages/About";
+import { VisionMission } from "./pages/VisionMission";
+import { LeatherProducts } from "./pages/LeatherProducts";
+import { CopperProducts } from "./pages/CopperProducts";
+import { ImitationJewelry } from "./pages/ImitationJewelry";
+import { IndianHandicrafts } from "./pages/IndianHandicrafts";
+import { SustainableProducts } from "./pages/SustainableProducts";
+import { Contact } from "./pages/Contact";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+function App() {
+  return (
+    <BrowserRouter>
+      <Layout>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/about" element={<About />} />
+          <Route path="/vision-mission" element={<VisionMission />} />
+          <Route path="/products" element={<LeatherProducts />} />
+          <Route path="/products/leather" element={<LeatherProducts />} />
+          <Route path="/products/copper" element={<CopperProducts />} />
+          <Route path="/products/imitation-jewelry" element={<ImitationJewelry />} />
+          <Route path="/products/handicrafts" element={<IndianHandicrafts />} />
+          <Route path="/products/sustainable" element={<SustainableProducts />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </Layout>
+    </BrowserRouter>
+  );
+}
 
-createRoot(document.getElementById("root")!).render(<App />);
+export default App;
