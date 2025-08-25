@@ -43,10 +43,10 @@ export function Layout({ children }: LayoutProps) {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`font-playfair text-lg transition-colors duration-200 ${
+                  className={`text-lg transition-colors duration-200 ${
                     isActive(item.href)
                       ? 'text-white font-bold'
-                      : 'text-veblyssTextLight hover:text-white font-normal'
+                      : 'text-white hover:text-gray-200 font-normal'
                   }`}
                 >
                   {item.name}
@@ -72,10 +72,10 @@ export function Layout({ children }: LayoutProps) {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`font-playfair text-lg transition-colors duration-200 ${
+                  className={`text-lg transition-colors duration-200 ${
                     isActive(item.href)
                       ? 'text-white font-bold'
-                      : 'text-veblyssTextLight hover:text-white font-normal'
+                      : 'text-white hover:text-gray-200 font-normal'
                   }`}
                 >
                   {item.name}
