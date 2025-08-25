@@ -20,12 +20,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#368581",
+          foreground: "#FAF9F6",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#FFECE0",
+          foreground: "#222",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -57,6 +57,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        veblyssPrimary: "#368581",
+        veblyssSecondary: "#FFECE0",
+        veblyssBackground: "#FAF9F6",
+        veblyssText: "#222",
+        veblyssTextLight: "#FAF9F6",
+      },
+      fontFamily: {
+        playfair: ['Playfair Display', 'serif'],
+        opensans: ['Open Sans', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
