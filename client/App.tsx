@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Index } from "./pages/Index";
-import { NotFound } from "./pages/NotFound";
+import { NotFound } from "./src/app/not-found";
 import { About } from "./pages/About";
 import { VisionMission } from "./pages/VisionMission";
 import { Products } from "./pages/Products";

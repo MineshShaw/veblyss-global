@@ -1,4 +1,4 @@
-export function Contact() {
+export default function Contact() {
   return (
     <div className="bg-veblyssBackground min-h-screen">
       {/* Hero Section */}
@@ -14,7 +14,7 @@ export function Contact() {
             Contact Us
           </h1>
           <p className="font-opensans font-semibold text-xl md:text-2xl text-veblyssTextLight max-w-3xl">
-            Ready to explore our premium Indian exports? Let's build a
+            Ready to explore our premium Indian exports? Let&apos;s build a
             partnership.
           </p>
         </div>
@@ -119,7 +119,7 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg py-4 rounded-xl hover:bg-opacity-90 transition-all duration-300"
+                  className="w-full bg-[#368581] text-[#FAF9F6] hover:text-2xl font-opensans font-bold text-lg p-6 rounded-xl hover:bg-opacity-90 transition-all duration-300"
                 >
                   Send Message
                 </button>
@@ -196,7 +196,7 @@ export function Contact() {
                 </h3>
                 <ul className="font-opensans text-veblyssText space-y-2">
                   <li>• European Union</li>
-                  <li>�� United States</li>
+                  <li>• United States</li>
                   <li>• Middle East</li>
                   <li>• Africa</li>
                   <li>• Asia Pacific</li>

@@ -53,9 +53,9 @@ export default function Home() {
           <Image
             src="/images/placeholder.png"
             alt="VeBlyss Global Logo"
-            className="z-0 w-full h-full"
-            width={800}
-            height={800}
+            className="object-cover sm:static sm:w-full sm:h-auto sm:object-cover"
+            fill
+            priority
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
             <h1
@@ -102,7 +102,7 @@ export default function Home() {
             </div>
 
             {/* Content */}
-            <div className="lg:w-1/2 space-y-8">
+            <div className="lg:w-1/2 space-y-8 p-3">
               <h2
                 className="font-bold text-4xl lg:text-5xl"
                 style={{ color: "#368581", fontFamily: "Playfair Display" }}
@@ -159,7 +159,7 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {productCategories.map((category, index) => (
+            {productCategories.map((category) => (
               <div
                 key={category.name}
                 className="rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
