@@ -31,7 +31,7 @@ export function Layout({ children }: LayoutProps) {
             {/* Logo */}
             <Link to="/" className="flex-shrink-0">
               <div className="bg-white px-6 py-3 rounded-lg">
-                <span className="text-veblyssPrimary font-playfair font-bold text-xl">
+                <span style={{color: '#368581'}} className="font-bold text-xl">
                   VeBlyss Global
                 </span>
               </div>
