@@ -4,16 +4,18 @@ export default function Contact() {
       {/* Hero Section */}
       <section className="relative h-96 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="w-full h-full bg-gradient-to-b from-black/60 to-transparent">
-            <div className="w-full h-full bg-gray-300"></div>
+          <div className="w-full h-full">
+            <div className="w-full h-full bg-gradient-to-b from-neutral-600 to-transparent"></div>
           </div>
         </div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="font-playfair font-bold text-4xl md:text-6xl text-veblyssSecondary mb-6">
+          <h1 className="font-playfair font-bold text-4xl md:text-6xl text-veblyssSecondary mb-6"
+            style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
             Contact Us
           </h1>
-          <p className="font-opensans font-semibold text-xl md:text-2xl text-veblyssTextLight max-w-3xl">
+          <p className="font-opensans font-semibold text-xl md:text-2xl text-veblyssTextLight max-w-3xl"
+            style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
             Ready to explore our premium Indian exports? Let&apos;s build a
             partnership.
           </p>
@@ -26,7 +28,8 @@ export default function Contact() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
             <div className="bg-veblyssBackground p-8 rounded-xl shadow-lg">
-              <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-8">
+              <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-8"
+                style={{color: "#368581", fontFamily: "Playfair Display"}}>
                 Get In Touch
               </h2>
 
@@ -129,13 +132,15 @@ export default function Contact() {
             {/* Company Information */}
             <div className="space-y-8">
               <div className="bg-veblyssBackground p-8 rounded-xl shadow-lg">
-                <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-6">
+                <h2 className="font-playfair font-bold text-3xl text-veblyssPrimary mb-6"
+                  style={{color: "#368581", fontFamily: "Playfair Display"}}>
                   VeBlyss Global Pvt Ltd
                 </h2>
 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2">
+                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2"
+                      style={{color: "#368581", fontFamily: "Playfair Display"}}>
                       Head Office
                     </h3>
                     <p className="font-opensans text-veblyssText">
@@ -147,7 +152,8 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2">
+                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2"
+                      style={{color: "#368581", fontFamily: "Playfair Display"}}>
                       Email
                     </h3>
                     <p className="font-opensans text-veblyssText">
@@ -158,7 +164,8 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2">
+                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2"
+                      style={{color: "#368581", fontFamily: "Playfair Display"}}>
                       Phone
                     </h3>
                     <p className="font-opensans text-veblyssText">
@@ -169,7 +176,8 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2">
+                    <h3 className="font-opensans font-bold text-lg text-veblyssText mb-2"
+                      style={{color: "#368581", fontFamily: "Playfair Display"}}>
                       Social Media
                     </h3>
                     <div className="flex space-x-4">
@@ -191,7 +199,8 @@ export default function Contact() {
               </div>
 
               <div className="bg-veblyssBackground p-8 rounded-xl shadow-lg">
-                <h3 className="font-playfair font-bold text-2xl text-veblyssPrimary mb-4">
+                <h3 className="font-playfair font-bold text-2xl text-veblyssPrimary mb-4"
+                  style={{color: "#368581", fontFamily: "Playfair Display"}}>
                   Global Markets We Serve
                 </h3>
                 <ul className="font-opensans text-veblyssText space-y-2">

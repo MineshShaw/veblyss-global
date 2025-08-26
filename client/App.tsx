@@ -5,11 +5,11 @@ import { NotFound } from "./src/app/not-found";
 import { About } from "./pages/About";
 import { VisionMission } from "./pages/VisionMission";
 import { Products } from "./pages/Products";
-import { LeatherProducts } from "./pages/LeatherProducts";
-import { CopperProducts } from "./pages/CopperProducts";
-import { ImitationJewelry } from "./pages/ImitationJewelry";
-import { IndianHandicrafts } from "./pages/IndianHandicrafts";
-import { SustainableProducts } from "./pages/SustainableProducts";
+import { LeatherProducts } from "./src/app/products/leather/page";
+import { CopperProducts } from "./src/app/products/copper/page";
+import { ImitationJewelry } from "./src/app/products/imitation-jewelry/page";
+import { IndianHandicrafts } from "./src/app/products/handicrafts/page";
+import { SustainableProducts } from "./src/app/products/sustainable/page";
 import { Contact } from "./pages/Contact";
 
 function App() {
