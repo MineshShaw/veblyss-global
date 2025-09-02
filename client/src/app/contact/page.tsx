@@ -122,7 +122,8 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#368581] text-[#FAF9F6] hover:text-2xl font-opensans font-bold text-lg p-6 rounded-xl hover:bg-opacity-90 transition-all duration-300"
+                  className="w-full bg-[#368581] text-[#FAF9F6] font-opensans font-bold text-lg p-6 rounded-xl hover:bg-opacity-90 hover:scale-105 hover:shadow-xl transition-all duration-300 transform active:scale-95 hover:-translate-y-1"
+                  style={{ fontFamily: "Open Sans" }}
                 >
                   Send Message
                 </button>
