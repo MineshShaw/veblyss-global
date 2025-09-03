@@ -1,13 +1,6 @@
 const mongoose = require('mongoose')
-
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/veblyss_global')
-        console.log(`MongoDB Connected: ${conn.connection.host}`)
-    } catch (error) {
-        console.error('MongoDB connection error:', error.message)
-        process.exit(1)
-    }
+const connectDB = async()=>{
+    console.log("DB connected for testing, not for production")
 }
 
 module.exports = connectDB

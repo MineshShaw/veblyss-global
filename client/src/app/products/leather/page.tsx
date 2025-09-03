@@ -106,8 +106,8 @@ export default function LeatherProducts() {
                     {product.name}
                   </h3>
                   <button
-                    className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-8 py-3 rounded-xl hover:bg-opacity-90 hover:scale-110 hover:shadow-xl transition-all duration-300 transform active:scale-95 hover:-translate-y-1"
-                    style={{ backgroundColor: "#368581", color: "#FAF9F6", fontFamily: "Open Sans" }}
+                    className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-8 py-3 rounded-xl hover:bg-opacity-90 transition-all duration-300"
+                    style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
                   >
                     Check More
                   </button>

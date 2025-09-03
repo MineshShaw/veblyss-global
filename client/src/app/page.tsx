@@ -73,7 +73,7 @@ export default function Home() {
             </p>
             <Link
               href="/products"
-              className="text-xl md:text-2xl px-8 py-4 rounded-xl hover:bg-opacity-90 hover:scale-105 hover:shadow-2xl transition-all duration-300 shadow-lg font-bold transform active:scale-95"
+              className="text-xl md:text-2xl px-8 py-4 rounded-xl hover:bg-opacity-90 transition-all duration-300 shadow-lg font-bold"
               style={{
                 backgroundColor: "#368581",
                 color: "#FAF9F6",
@@ -120,7 +120,7 @@ export default function Home() {
               </p>
               <Link
                 href="/about"
-                className="inline-block text-xl px-8 py-4 rounded-xl hover:bg-opacity-90 hover:scale-105 hover:shadow-xl transition-all duration-300 font-bold transform active:scale-95 hover:-translate-y-1"
+                className="inline-block text-xl px-8 py-4 rounded-xl hover:bg-opacity-90 transition-all duration-300 font-bold"
                 style={{
                   backgroundColor: "#368581",
                   color: "#FAF9F6",
@@ -183,7 +183,7 @@ export default function Home() {
                   </h3>
                   <Link
                     href={category.href}
-                    className="inline-block text-sm px-4 py-2 rounded-xl hover:bg-opacity-90 hover:scale-110 hover:shadow-lg transition-all duration-300 font-bold transform active:scale-95 hover:-translate-y-1"
+                    className="inline-block text-sm px-4 py-2 rounded-xl hover:bg-opacity-90 transition-all duration-300 font-bold"
                     style={{
                       backgroundColor: "#368581",
                       color: "#FAF9F6",
@@ -294,7 +294,7 @@ export default function Home() {
               </p>
               <Link
                 href="/contact"
-                className="inline-block text-xl px-8 py-4 rounded-xl hover:bg-opacity-90 hover:scale-105 hover:shadow-xl transition-all duration-300 font-bold transform active:scale-95 hover:-translate-y-1"
+                className="inline-block text-xl px-8 py-4 rounded-xl hover:bg-opacity-90 transition-all duration-300 font-bold"
                 style={{
                   backgroundColor: "#368581",
                   color: "#FAF9F6",
