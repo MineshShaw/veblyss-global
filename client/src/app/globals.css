@@ -1,29 +1,4 @@
 @import "tailwindcss";
-
 ::-webkit-scrollbar {
     display: none;
-}
-
-/* Font Families */
-.font-playfair {
-  font-family: var(--font-playfair-display), serif;
-}
-
-.font-open-sans {
-  font-family: var(--font-open-sans), sans-serif;
-}
-
-/* Custom styles for better typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair-display), serif;
-}
-
-body, p, span, div, button, input, select, textarea {
-  font-family: var(--font-open-sans), sans-serif;
-}
-
-/* Custom focus ring styles */
-input:focus, select:focus, textarea:focus {
-  --tw-ring-color: #368581;
-  --tw-ring-opacity: 0.5;
 }
