@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,10 +30,6 @@ const userSchema = new mongoose.Schema({
         type: Object,
         default:{}
     },
-    admin:{
-        type: Boolean,
-        default: false
-    }
 },{minimize: false});
 
 const userModel = mongoose.model.User || mongoose.model('User',userSchema)
