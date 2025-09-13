@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ReactReduxProvider from "./providers";
 
 
 export const metadata: Metadata = {
@@ -17,9 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#fcede1]">
-        <Navbar />
-        {children}
-        <Footer />
+        <ReactReduxProvider>
+          <div className="page-container">
+          <Navbar />
+            <main className="main-content">{children}</main>
+          <Footer />
+          </div>
+        </ReactReduxProvider>
       </body>
     </html>
   );
