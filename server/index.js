@@ -1,8 +1,10 @@
-import express from 'express'
 import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import connectDB from './config/mongodb.js'
 import dotenv from 'dotenv'
+import express from 'express'
+import connectDB from './config/mongodb.js'
+import authRouter from './routes/auth.routes.js'
+import userRouter from './routes/user.routes.js'
+import cookieParser from 'cookie-parser'
 dotenv.config({path: './.env'})
 
 //App Config
@@ -16,4 +18,8 @@ app.use(cookieParser());
 
 //api endpoints
 app.get('/', (req, res) => res.send('Hello World!'))
+//Listener
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+
 app.listen(port, () => console.log(`Server listening on port ${port}!`))
