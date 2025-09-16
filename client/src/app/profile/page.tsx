@@ -53,15 +53,16 @@ const ProfilePage = () => {
 
   // Edit modal component (local) - UPDATED to include address fields
   const EditProfileModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-    const addr = user.addressdata || {};
-    const [name, setName] = useState(user.name || "");
-    const [email, setEmail] = useState(user.email || "");
-    const [street, setStreet] = useState(addr.street || "");
-    const [city, setCity] = useState(addr.city || "");
-    const [stateVal, setStateVal] = useState(addr.state || "");
-    const [postalCode, setPostalCode] = useState(addr.postalCode || "");
-    const [country, setCountry] = useState(addr.country || "");
-    const [phone, setPhone] = useState(addr.phone || "");
+    // ensure TypeScript accepts address fields — treat addr as any
+    const addr: any = (user && (user as any).addressdata) || {};
+    const [name, setName] = useState<string>(user?.name ?? "");
+    const [email, setEmail] = useState<string>(user?.email ?? "");
+    const [street, setStreet] = useState<string>(addr?.street ?? "");
+    const [city, setCity] = useState<string>(addr?.city ?? "");
+    const [stateVal, setStateVal] = useState<string>(addr?.state ?? "");
+    const [postalCode, setPostalCode] = useState<string>(addr?.postalCode ?? "");
+    const [country, setCountry] = useState<string>(addr?.country ?? "");
+    const [phone, setPhone] = useState<string>(addr?.phone ?? "");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
