@@ -1,14 +1,20 @@
+'use client'
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+
 export default function LeatherProducts() {
+  const [loadingAdd, setLoadingAdd] = useState(false)
+  const [notice, setNotice] = useState<string | null>(null)
+
   const products = [
-    { name: "Premium Leather Bags", id: 1 },
-    { name: "Handcrafted Wallets", id: 2 },
-    { name: "Leather Belts", id: 3 },
-    { name: "Travel Accessories", id: 4 },
-    { name: "Leather Jackets", id: 5 },
-    { name: "Executive Portfolios", id: 6 },
+    { name: "Premium Leather Bags", id: "prod-1", price: 4999 },
+    { name: "Handcrafted Wallets", id: "prod-2", price: 1299 },
+    { name: "Leather Belts", id: "prod-3", price: 899 },
+    { name: "Travel Accessories", id: "prod-4", price: 2199 },
+    { name: "Leather Jackets", id: "prod-5", price: 8999 },
+    { name: "Executive Portfolios", id: "prod-6", price: 1799 },
   ];
 
   const whyChooseFeatures = [
@@ -32,6 +38,36 @@ export default function LeatherProducts() {
     { name: "Handicrafts", href: "/products/handicrafts" },
     { name: "Sustainable Products", href: "/products/sustainable" },
   ];
+
+  const addToCart = async (product: { id: string; name: string; price: number; }) => {
+    try {
+      setLoadingAdd(true)
+      setNotice(null)
+      const body = {
+        productId: product.id,
+        quantity: 1,
+        name: product.name,
+        price: product.price,
+        image: '/images/placeholder.png'
+      }
+      const res = await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(()=>null)
+        throw new Error(err?.error || 'Could not add to cart')
+      }
+      setNotice('Added to cart')
+    } catch (err: any) {
+      setNotice(err.message || 'Add to cart failed')
+    } finally {
+      setLoadingAdd(false)
+      setTimeout(()=>setNotice(null), 3000)
+    }
+  }
 
   return (
     <div className="bg-veblyssBackground">
@@ -80,15 +116,13 @@ export default function LeatherProducts() {
           >
             Our Product Range
           </h2>
-      
-          {/* Dynamic Grid for Any Number of Products */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
               >
-                {/* Product Image */}
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
                   <div className="w-full h-full bg-gray-300">
                     <Image
@@ -99,18 +133,34 @@ export default function LeatherProducts() {
                     />
                   </div>
                 </div>
-      
-                {/* Product Details */}
+
                 <div className="p-8 text-center">
-                  <h3 className="font-playfair font-semibold text-2xl text-veblyssText mb-6">
+                  <h3 className="font-playfair font-semibold text-2xl text-veblyssText mb-4">
                     {product.name}
                   </h3>
-                  <button
-                    className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-8 py-3 rounded-xl hover:bg-opacity-90 transition-all duration-300"
-                    style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
-                  >
-                    Check More
-                  </button>
+
+                  <div className="mb-6">
+                    <span className="text-2xl font-bold">₹{product.price.toFixed(2)}</span>
+                  </div>
+
+                  <div className="flex justify-center gap-4">
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-6 py-3 rounded-xl hover:bg-opacity-90 transition-all duration-300"
+                      style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
+                      disabled={loadingAdd}
+                    >
+                      {loadingAdd ? 'Adding...' : 'Add to Cart'}
+                    </button>
+
+                    <Link
+                      href="#"
+                      className="inline-block text-veblyssPrimary font-opensans font-bold text-lg px-4 py-3 rounded-xl border"
+                    >
+                      Check More
+                    </Link>
+                  </div>
+
                 </div>
               </div>
             ))}
@@ -210,6 +260,12 @@ export default function LeatherProducts() {
           </div>
         </div>
       </section>
+
+      {notice && (
+        <div className="fixed bottom-6 right-6 bg-white rounded-lg p-3 shadow-lg">
+          <span>{notice}</span>
+        </div>
+      )}
     </div>
   );
 }

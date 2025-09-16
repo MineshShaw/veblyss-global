@@ -1,25 +1,35 @@
-import cors from 'cors'
-import dotenv from 'dotenv'
-import express from 'express'
-import connectDB from './config/mongodb.js'
-import authRouter from './routes/auth.routes.js'
-import userRouter from './routes/user.routes.js'
-import cookieParser from 'cookie-parser'
-dotenv.config({path: './.env'})
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from "cors";
+import connectDB from './config/mongodb.js';
+import cartRoutes from './routes/cart.route.js';
+import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
+import cookieParser from 'cookie-parser';
 
-//App Config
-const app = express()
-const port = process.env.PORT || 3000
-connectDB()
-//Middlewares
+dotenv.config({ path: './.env' });
+
+// App Config
+const app = express();
+const port = process.env.PORT || 5000;
+
+// Connect DB
+connectDB();
+
+// Middlewares
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
+app.use(cors({
+  origin: "http://localhost:3000", // frontend origin
+  credentials: true
+}));
 
-//api endpoints
-app.get('/', (req, res) => res.send('Hello World!'))
-//Listener
+// API Endpoints
+app.get('/', (req, res) => res.send('Hello World!'));
+
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/cart', cartRoutes);
 
-app.listen(port, () => console.log(`Server listening on port ${port}!`))
+// Listener
+app.listen(port, () => console.log(`Server listening on port ${port}!`));
