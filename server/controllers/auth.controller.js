@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+import User from '../models/user.model.js'
 import bcrypt from "bcryptjs";
 import generateToken from "../config/jwt.js"
 
@@ -55,15 +55,15 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
     try {
-        const { userName, password } = req.body;
+        const { email, password } = req.body;
 
         // Validate request body
-        if (!userName || !password) {
+        if (!email || !password) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
         // Check if user exists
-        const user = await User.findOne({ userName });
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
