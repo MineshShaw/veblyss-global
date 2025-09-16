@@ -1,12 +1,32 @@
 import express from 'express'
+import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js'
 
 const router = express.Router()
+const JWT_SECRET = process.env.JWT_SECRET || 'change-me'
+
+function getUserIdFromReq(req) {
+  // prefer req.user if auth middleware populated it
+  const uid = req.user?.id || req.user?._id
+  if (uid) return uid
+
+  // otherwise look for token cookie or Authorization header
+  const token = req.cookies?.token || (req.headers.authorization || '').split(' ')[1]
+  if (!token) return null
+
+  try {
+    const payload = jwt.verify(token, JWT_SECRET)
+    return payload.id || payload._id || null
+  } catch (err) {
+    console.error('token verify failed in cart route:', err?.message || err)
+    return null
+  }
+}
 
 // POST /api/cart  -> add/update a single product (body: { productId, quantity, name, price, image })
 router.post('/', async (req, res) => {
   try {
-    const userId = req.user?.id || req.cookies?.userId
+    const userId = getUserIdFromReq(req)
     if (!userId) {
       return res.status(401).json({ error: 'Unauthenticated' })
     }
@@ -38,7 +58,7 @@ router.post('/', async (req, res) => {
 // PATCH /api/cart  -> update quantity { productId, quantity }
 router.patch('/', async (req, res) => {
   try {
-    const userId = req.user?.id || req.cookies?.userId
+    const userId = getUserIdFromReq(req)
     if (!userId) {
       return res.status(401).json({ error: 'Unauthenticated' })
     }
@@ -56,11 +76,8 @@ router.patch('/', async (req, res) => {
     if (Number(quantity) <= 0) {
       delete cart[productId]
     } else {
-      cart[productId].quantity = Number(quantity)
+      cart[productId] = { ...(cart[productId] || {}), quantity: Number(quantity) }
     }
-    if (Number(quantity) <= 0) {
-      delete cart[productId]
-    } else cart[productId].quantity = Number(quantity)
 
     user.cartdata = cart
     await user.save()
@@ -74,7 +91,7 @@ router.patch('/', async (req, res) => {
 // DELETE /api/cart/:productId -> remove item
 router.delete('/:productId', async (req, res) => {
   try {
-    const userId = req.user?.id || req.cookies?.userId
+    const userId = getUserIdFromReq(req)
     if (!userId) {
       return res.status(401).json({ error: 'Unauthenticated' })
     }

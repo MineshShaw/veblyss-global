@@ -2,9 +2,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/userSlice";
+import { getCurrentUser } from "@/lib/Auth";
 
 
 export default function LeatherProducts() {
+  const dispatch = useDispatch();
   const [loadingAdd, setLoadingAdd] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
 
@@ -50,7 +54,10 @@ export default function LeatherProducts() {
         price: product.price,
         image: '/images/placeholder.png'
       }
-      const res = await fetch('/api/cart', {
+
+      // use explicit backend origin (set NEXT_PUBLIC_API_URL) and include credentials
+      const API = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/$/, "")
+      const res = await fetch(`${API}/api/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -60,6 +67,26 @@ export default function LeatherProducts() {
         const err = await res.json().catch(()=>null)
         throw new Error(err?.error || 'Could not add to cart')
       }
+
+      // fetch latest user/cart from backend and update redux so Cart page shows new item
+      try {
+        const me = await getCurrentUser();
+        const user = me?.user ?? me;
+        if (user) {
+          dispatch(setUser({
+            name: user.name ?? null,
+            email: user.email ?? null,
+            password: null,
+            cartdata: user.cartdata ?? null,
+            wishlistdata: user.wishlistdata ?? null,
+            orderdata: user.orderdata ?? null,
+            addressdata: user.addressdata ?? null,
+          }));
+        }
+      } catch (_) {
+        // non-fatal
+      }
+
       setNotice('Added to cart')
     } catch (err: any) {
       setNotice(err.message || 'Add to cart failed')
@@ -124,14 +151,14 @@ export default function LeatherProducts() {
                 className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
               >
                 <div className="h-96 bg-gray-300 relative overflow-hidden">
-                  <div className="w-full h-full bg-gray-300">
-                    <Image
-                      src='/images/placeholder.png'
-                      alt={product.name}
-                      className="object-cover w-full h-full"
-                      layout="fill"
-                    />
-                  </div>
+                  {/* Next/Image fill usage */}
+                  <Image
+                    src="/images/placeholder.png"
+                    alt={product.name}
+                    className="object-cover"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
                 </div>
 
                 <div className="p-8 text-center">

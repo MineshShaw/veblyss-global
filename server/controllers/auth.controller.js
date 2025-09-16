@@ -38,11 +38,17 @@ export const signup = async (req, res) => {
 
     const token = await generateToken(newUser._id);
 
-    res.cookie("token", token, {
+    // when setting cookie after signup/signin
+    const cookieOptions = {
       httpOnly: true,
-      sameSite: true,
+      // Allow cross-site XHR in prod only if using HTTPS and real domain.
+      // In development use 'lax' (or 'none' if you confirm browser accepts it).
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production", // require HTTPS in production
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
+    };
+
+    res.cookie("token", token, cookieOptions);
     // hide password
     const out = newUser.toObject();
     delete out.password;
@@ -77,11 +83,17 @@ export const signin = async (req, res) => {
     // Successful login
     const token = await generateToken(user._id);
 
-    res.cookie("token", token, {
+    // when setting cookie after signup/signin
+    const cookieOptions = {
       httpOnly: true,
-      sameSite: true,
+      // Allow cross-site XHR in prod only if using HTTPS and real domain.
+      // In development use 'lax' (or 'none' if you confirm browser accepts it).
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production", // require HTTPS in production
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     const out = user.toObject();
     delete out.password;
