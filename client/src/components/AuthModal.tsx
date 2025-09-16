@@ -1,4 +1,6 @@
+import { login, signup } from "@/lib/Auth";
 import React, { useState, FC, MouseEvent, FormEvent } from "react";
+import { useDispatch } from "react-redux";
 
 interface AuthModalProps {
   open: boolean;
@@ -68,9 +70,10 @@ const modalStyle = {
 
 const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
   const [isSignup, setIsSignup] = useState(false);
+  const dispatch = useDispatch();
 
   // Track state for each input
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -85,16 +88,28 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSignup) {
-      // use fullName, email, password for sign up logic
-      console.log("Sign up:", { fullName, email, password });
-      // signUp(fullName, email, password)
+      signup(name, email, password)
+        .then(data => {
+          console.log("Signup successful:", data);
+          dispatch({ type: "SET_USER", payload: data.user });
+          onClose();
+        })
+        .catch(err => {
+          console.error("Signup error:", err);
+        });
     } else {
-      // use email, password for login logic
-      console.log("Login:", { email, password });
-      // login(email, password)
+      login(email, password)
+        .then(data => {
+          console.log("Login successful:", data);
+          dispatch({ type: "SET_USER", payload: data.user });
+          onClose();
+        })
+        .catch(err => {
+          console.error("Login error:", err);
+        });
     }
-    // Optionally reset the form or close the modal:
-    // setFullName(""); setEmail(""); setPassword(""); onClose();
+
+    setName(""); setEmail(""); setPassword(""); onClose();
   };
 
   return (
@@ -114,8 +129,8 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
               placeholder="Full Name"
               required
               autoComplete="name"
-              value={fullName}
-              onChange={e => setFullName(e.target.value)}
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           )}
           <input

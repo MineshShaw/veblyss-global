@@ -4,10 +4,10 @@ import generateToken from "../config/jwt.js"
 
 export const signup = async (req, res) => {
     try {
-        const { name, userName, email, password } = req.body;
+        const { name,  email, password } = req.body;
 
         // Validate request body
-        if (!name || !userName || !email || !password) {
+        if (!name || !email || !password) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
@@ -15,12 +15,6 @@ export const signup = async (req, res) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(409).json({ error: "User already exists" });
-        }
-
-        // Validate user username
-        const usernameTaken = await User.findOne({ userName });
-        if (usernameTaken) {
-            return res.status(409).json({ error: "Username is already taken" });
         }
 
         // Password strength
@@ -35,7 +29,6 @@ export const signup = async (req, res) => {
         // Create user
         const newUser = await User.create({
             name,
-            userName,
             email,
             password: hashedPassword,
         });
@@ -55,7 +48,7 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.query;
 
         // Validate request body
         if (!email || !password) {
@@ -84,6 +77,7 @@ export const signin = async (req, res) => {
         });
         return res.status(200).json({ message: "Login successful", user });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: "Error signing in" });
     }
 }
