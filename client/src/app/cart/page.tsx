@@ -98,8 +98,8 @@ export default function CartPage() {
           const prods = Array.isArray(data.products)
             ? data.products
             : Array.isArray(data)
-            ? data
-            : [data]
+              ? data
+              : [data]
 
           setProducts(prods as Product[])
         } else {
@@ -176,11 +176,15 @@ export default function CartPage() {
             {products.map((p) => {
               const pid = p._id || p.id!
 
-              const meta: CartItemMeta | undefined = Array.isArray(user.cartdata)
-                ? user.cartdata.find((item) => item.productId === pid || item.id === pid)
-                : user.cartdata[pid]
+              const meta: CartItemMeta | undefined =
+                user.cartdata && Array.isArray(user.cartdata)
+                  ? user.cartdata.find((item) => item.productId === pid || item.id === pid)
+                  : user.cartdata && typeof user.cartdata === 'object'
+                    ? user.cartdata[pid]
+                    : undefined
 
               const qty = meta?.quantity ?? meta?.qty ?? 1
+
 
               return (
                 <div key={pid} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
