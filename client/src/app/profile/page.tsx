@@ -21,9 +21,9 @@ interface UserState {
   name: string | null
   email: string | null
   password: string | null
-  cartdata: Record<string, any> | any[] | null
-  wishlistdata: Record<string, any> | null
-  orderdata: Record<string, any> | null
+  cartdata: Record<string, number> | number[] | null
+  wishlistdata: Record<string, number> | null
+  orderdata: Record<string, number> | null
   addressdata: AddressData | null
 }
 
@@ -67,7 +67,7 @@ const ProfilePage = () => {
     return <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} />
   }
 
-  const countItems = (obj: Record<string, any> | null) =>
+  const countItems = (obj: Record<string, number> | null) =>
     obj && typeof obj === 'object' ? Object.keys(obj).length : 0
 
   const wishCount = countItems(user.wishlistdata)
