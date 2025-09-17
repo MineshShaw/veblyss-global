@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,80 +8,45 @@ import { RootState } from '@/redux/store'
 import { getCurrentUser } from '@/lib/Auth'
 import { setUser } from '@/redux/userSlice'
 
+// --- Type Definitions ---
+
+interface Product {
+  _id: string
+  id?: string
+  name: string
+  description: string
+  image: string
+  price: number
+  category: string
+  quantity: number
+}
+
+interface CartItemMeta {
+  productId?: string
+  id?: string
+  quantity?: number
+  qty?: number
+}
+
+interface UserState {
+  name: string | null
+  email: string | null
+  cartdata: CartItemMeta[] | Record<string, CartItemMeta> | null
+  wishlistdata?: Record<string, any> | null
+  orderdata?: Record<string, any> | null
+  addressdata?: Record<string, any> | null
+}
+
+// --- Component ---
+
 export default function CartPage() {
-  // use Redux user as the single source of truth (updated after add-to-cart)
-  const user = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: RootState) => state.user) as UserState
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [products, setProducts] = useState<any[]>([])
-  //const [wishlist, setWishlist] = useState<Record<string, any>>({}) // productId -> meta saved by user
+  const [products, setProducts] = useState<Product[]>([])
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        setProducts([])
-
-        // If no signed in user or no cart saved on user, show empty cart
-        if (!user || !user.email) {
-          //setWishlist({})
-          setProducts([])
-          setLoading(false)
-          return
-        }
-
-        // tolerate multiple shapes: cartdata could be array or map
-        const cart = user.cartdata || {}
-        //setWishlist(user.wishlistdata || {})
-
-        let ids: string[] = []
-        if (Array.isArray(cart)) {
-          // array of items with productId
-          ids = cart.map((it: any) => it.productId || it.id).filter(Boolean)
-        } else if (typeof cart === 'object' && cart !== null) {
-          // object map productId -> meta
-          ids = Object.keys(cart)
-        }
-
-        if (ids.length === 0) {
-          setProducts([])
-          setLoading(false)
-          return
-        }
-
-        // call backend products endpoint using configured API base (fallback to localhost:5000)
-        const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
-
-        const url = `${API}/api/products?ids=${ids.join(',')}`
-        const prodRes = await fetch(url, { credentials: 'include' })
-        if (!prodRes.ok) {
-          // fallback to individual fetches
-          const proms = ids.map((id) =>
-            fetch(`${API}/api/products/${id}`, { credentials: 'include' }).then((r) => {
-              if (!r.ok) throw new Error('product fetch failed')
-              return r.json()
-            })
-          )
-          const prods = await Promise.all(proms)
-          setProducts(prods.map((p: any) => (p.product ? p.product : p)))
-        } else {
-          const data = await prodRes.json()
-          setProducts(Array.isArray(data.products) ? data.products : (Array.isArray(data) ? data : [data]).flat())
-        }
-      } catch (err: any) {
-        setError(err?.message || 'Something went wrong')
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-    // re-run when user changes (cart updated)
-  }, [user])
-
-  // If cart was updated elsewhere (e.g. addToCart), ensure we can refresh user state on demand
   const refreshUser = async () => {
     try {
       const me = await getCurrentUser()
@@ -99,41 +65,96 @@ export default function CartPage() {
     }
   }
 
+  useEffect(() => {
+    const loadCartProducts = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        if (!user?.email || !user.cartdata) {
+          setProducts([])
+          return
+        }
+
+        let ids: string[] = []
+        if (Array.isArray(user.cartdata)) {
+          ids = user.cartdata.map((item) => item.productId || item.id).filter(Boolean) as string[]
+        } else {
+          ids = Object.keys(user.cartdata)
+        }
+
+        if (ids.length === 0) {
+          setProducts([])
+          return
+        }
+
+        const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
+        const url = `${API}/api/products?ids=${ids.join(',')}`
+
+        const res = await fetch(url, { credentials: 'include' })
+
+        if (res.ok) {
+          const data = await res.json()
+          const prods = Array.isArray(data.products)
+            ? data.products
+            : Array.isArray(data)
+            ? data
+            : [data]
+
+          setProducts(prods as Product[])
+        } else {
+          const proms = ids.map((id) =>
+            fetch(`${API}/api/products/${id}`, { credentials: 'include' }).then((r) => {
+              if (!r.ok) throw new Error('Product fetch failed')
+              return r.json()
+            })
+          )
+          const prods = await Promise.all(proms)
+          const normalizedProducts: Product[] = prods.map((p) => ('product' in p ? p.product : p))
+          setProducts(normalizedProducts)
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error'
+        setError(message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadCartProducts()
+  }, [user])
+
   const itemCount = useMemo(() => {
-    if (!user || !user.cartdata) return 0
-    if (Array.isArray(user.cartdata)) return user.cartdata.length
-    return Object.keys(user.cartdata || {}).length
+    if (!user?.cartdata) return 0
+    return Array.isArray(user.cartdata)
+      ? user.cartdata.length
+      : Object.keys(user.cartdata).length
   }, [user])
 
   if (loading)
     return (
       <div className="bg-veblyssBackground min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-veblyssText">Loading cart...</p>
-        </div>
+        <p className="text-veblyssText">Loading cart...</p>
       </div>
     )
 
   if (error)
     return (
       <div className="bg-veblyssBackground min-h-screen flex items-center justify-center">
-        <div className="max-w-xl bg-white rounded-xl p-8 shadow-lg">
+        <div className="bg-white rounded-xl p-8 shadow-lg">
           <h2 className="font-playfair text-2xl mb-4">Error</h2>
           <p className="text-veblyssText">{error}</p>
-          <div className="mt-4">
-            <button onClick={refreshUser} className="text-sm text-veblyssPrimary">Retry / refresh</button>
-          </div>
+          <button onClick={refreshUser} className="text-veblyssPrimary text-sm mt-4">
+            Retry / Refresh User Data
+          </button>
         </div>
       </div>
     )
 
   return (
     <div className="bg-veblyssBackground min-h-screen pb-16">
-      <section className="relative py-20 text-center">
-        <h1
-          className="font-playfair font-bold text-4xl md:text-6xl mb-4"
-          style={{ color: '#FFECE0', fontFamily: 'Playfair Display' }}
-        >
+      <section className="py-20 text-center">
+        <h1 className="font-playfair text-4xl md:text-6xl text-[#FFECE0] mb-4">
           Your Cart ({itemCount})
         </h1>
         <p className="font-opensans text-veblyssTextLight max-w-2xl mx-auto">
@@ -146,25 +167,26 @@ export default function CartPage() {
           <div className="bg-white rounded-xl p-12 text-center shadow-lg">
             <h2 className="font-playfair text-2xl mb-4">Your cart is empty</h2>
             <p className="text-veblyssText mb-6">Browse products and add items to your cart.</p>
-            <Link
-              href="/products"
-              className="inline-block px-6 py-3 rounded-xl font-bold"
-              style={{ backgroundColor: '#368581', color: '#FAF9F6', fontFamily: 'Open Sans' }}
-            >
+            <Link href="/products" className="inline-block px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6]">
               Browse Products
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
-            {products.map((p: any) => {
-              const pid = p._id || p.id || ''
-              const meta = (user?.cartdata && (user.cartdata[pid] || (Array.isArray(user.cartdata) && user.cartdata.find((it:any)=>(it.productId===pid||it.id===pid))))) || {}
-              const qty = meta?.quantity ?? meta?.qty ?? (meta?.quantity === 0 ? 0 : 1)
+            {products.map((p) => {
+              const pid = p._id || p.id!
+
+              const meta: CartItemMeta | undefined = Array.isArray(user.cartdata)
+                ? user.cartdata.find((item) => item.productId === pid || item.id === pid)
+                : user.cartdata[pid]
+
+              const qty = meta?.quantity ?? meta?.qty ?? 1
+
               return (
-                <div key={pid || Math.random()} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
+                <div key={pid} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
                   <div className="w-32 h-32 bg-gray-100 relative">
                     {p.image ? (
-                      <Image src={p.image} alt={p.name} className="object-cover" fill />
+                      <Image src={p.image} alt={p.name} fill className="object-cover" />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
                         No Image
@@ -173,10 +195,10 @@ export default function CartPage() {
                   </div>
 
                   <div className="p-6 flex-1">
-                    <h3 className="font-playfair font-semibold text-xl text-veblyssText mb-2">{p.name}</h3>
+                    <h3 className="font-playfair text-xl font-semibold text-veblyssText mb-2">{p.name}</h3>
                     <p className="text-sm text-veblyssText mb-2">{p.description}</p>
                     <div className="flex items-center gap-4">
-                      <span className="text-2xl font-bold">₹{(p.price ?? 0).toFixed(2)}</span>
+                      <span className="text-2xl font-bold">₹{p.price.toFixed(2)}</span>
                       <span className="text-sm text-gray-500">Qty: {qty}</span>
                     </div>
                   </div>
@@ -184,21 +206,20 @@ export default function CartPage() {
                   <div className="p-4">
                     <button
                       onClick={async () => {
-                        // Remove item from cart on server then update UI via Redux or refetch user
                         try {
                           const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
                           const res = await fetch(`${API}/api/cart/${pid}`, {
                             method: 'DELETE',
                             credentials: 'include',
                           })
-                          if (!res.ok) throw new Error('Could not remove item')
-                          // refresh user state to reflect server-side change
+                          if (!res.ok) throw new Error('Failed to remove item')
                           await refreshUser()
-                        } catch (err:any) {
-                          setError(err?.message || 'Action failed')
+                        } catch (e) {
+                          console.error(e)
+                          setError('Failed to remove item from cart')
                         }
                       }}
-                      className="px-4 py-2 rounded-lg border font-semibold text-veblyssPrimary"
+                      className="px-4 py-2 border rounded-lg font-semibold text-veblyssPrimary"
                     >
                       Remove
                     </button>
