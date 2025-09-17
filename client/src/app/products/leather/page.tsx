@@ -88,8 +88,9 @@ export default function LeatherProducts() {
       }
 
       setNotice('Added to cart')
-    } catch (err: any) {
-      setNotice(err.message || 'Add to cart failed')
+    } catch (err) {
+      console.error(err)
+      setNotice('Add to cart failed')
     } finally {
       setLoadingAdd(false)
       setTimeout(()=>setNotice(null), 3000)

@@ -32,9 +32,9 @@ interface UserState {
   name: string | null
   email: string | null
   cartdata: CartItemMeta[] | Record<string, CartItemMeta> | null
-  wishlistdata?: Record<string, any> | null
-  orderdata?: Record<string, any> | null
-  addressdata?: Record<string, any> | null
+  wishlistdata?: Record<string, number> | null
+  orderdata?: Record<string, number> | null
+  addressdata?: Record<string, number> | null
 }
 
 // --- Component ---
