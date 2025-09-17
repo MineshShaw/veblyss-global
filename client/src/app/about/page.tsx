@@ -179,7 +179,7 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
               {exportProducts.map((product, index) => (
                 <div
-                  key={product.name}
+                  key={index}
                   className="bg-veblyssBackground rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
                 >
                   <div className="h-56 bg-gray-300 relative overflow-hidden">

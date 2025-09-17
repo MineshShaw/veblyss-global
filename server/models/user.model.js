@@ -28,10 +28,17 @@ const userSchema = new mongoose.Schema({
     },
     addressdata:{
         type: Object,
-        default:{}
+        default:{
+            street: "",
+            city: "",
+            state: "",
+            postalCode: "",
+            country: "",
+            phone: "",
+        }
     },
 },{minimize: false});
 
-const User = mongoose.model('User',userSchema)
+const User = mongoose.model.User || mongoose.model('User',userSchema);
 
 export default User;

@@ -1,6 +1,8 @@
-import { login, signup } from "@/lib/Auth";
+"use client";
 import React, { useState, FC, MouseEvent, FormEvent } from "react";
 import { useDispatch } from "react-redux";
+import { login, signup } from "@/lib/Auth";
+import { setUser } from "@/redux/userSlice";
 
 interface AuthModalProps {
   open: boolean;
@@ -72,55 +74,56 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
 
-  // Track state for each input
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!open) return null;
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSignup) {
-      signup(name, email, password)
-        .then(data => {
-          console.log("Signup successful:", data);
-          dispatch({ type: "SET_USER", payload: data.user });
-          onClose();
-        })
-        .catch(err => {
-          console.error("Signup error:", err);
-        });
-    } else {
-      login(email, password)
-        .then(data => {
-          console.log("Login successful:", data);
-          dispatch({ type: "SET_USER", payload: data.user });
-          onClose();
-        })
-        .catch(err => {
-          console.error("Login error:", err);
-        });
-    }
 
-    setName(""); setEmail(""); setPassword(""); onClose();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const payload = isSignup
+        ? await signup(name.trim(), email.trim(), password)
+        : await login(email.trim(), password);
+
+      const user = payload.user || payload;
+      dispatch(setUser({
+        name: user.name ?? null,
+        email: user.email ?? null,
+        password: null,
+        cartdata: user.cartdata ?? null,
+        wishlistdata: user.wishlistdata ?? null,
+        orderdata: user.orderdata ?? null,
+        addressdata: user.addressdata ?? null,
+      }));
+
+      setName(""); setEmail(""); setPassword("");
+      onClose();
+      // no full page reload — Redux state updated and UI will respond
+    } catch (err) {
+      console.error(err);
+      setError("Authentication failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div style={modalStyle.backdrop} onClick={handleBackdropClick}>
-      <div
-        style={modalStyle.container}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={modalStyle.heading}>
-          {isSignup ? "Create an Account" : "Welcome Back"}
-        </div>
+      <div style={modalStyle.container} onClick={(e) => e.stopPropagation()}>
+        <div style={modalStyle.heading}>{isSignup ? "Create an Account" : "Welcome Back"}</div>
+
         <form onSubmit={handleFormSubmit}>
           {isSignup && (
             <input
@@ -133,6 +136,7 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
               onChange={e => setName(e.target.value)}
             />
           )}
+
           <input
             style={modalStyle.input}
             type="email"
@@ -142,6 +146,7 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
+
           <input
             style={modalStyle.input}
             type="password"
@@ -151,19 +156,16 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <button type="submit" style={modalStyle.button}>
-            {isSignup ? "Sign Up" : "Login"}
+
+          {error && <div style={{ color: "crimson", marginTop: 8, textAlign: "center" }}>{error}</div>}
+
+          <button type="submit" style={{ ...modalStyle.button, opacity: loading ? 0.8 : 1 }} disabled={loading}>
+            {isSignup ? (loading ? "Signing up..." : "Sign Up") : (loading ? "Signing in..." : "Login")}
           </button>
         </form>
-        <div
-          style={modalStyle.switch}
-          onClick={() => setIsSignup(!isSignup)}
-          role="button"
-          tabIndex={0}
-        >
-          {isSignup
-            ? "Already have an account? Login"
-            : "Don't have an account? Sign Up"}
+
+        <div style={modalStyle.switch} onClick={() => { setIsSignup(!isSignup); setError(null); }} role="button" tabIndex={0}>
+          {isSignup ? "Already have an account? Login" : "Don't have an account? Sign Up"}
         </div>
       </div>
     </div>

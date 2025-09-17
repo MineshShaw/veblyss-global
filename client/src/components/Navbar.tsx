@@ -42,7 +42,7 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div className="hidden sm:flex space-x-4 text-white">
-          {navLinks.map((link, index) => (
+          {navLinks.map((link) => (
             <div key={link.name} className="flex items-center">
               <Link
                 href={link.path}
