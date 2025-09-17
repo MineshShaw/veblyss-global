@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
@@ -64,14 +64,58 @@ export default function CartPage() {
 
   const itemCount = cartItems.length
 
+  // Local state for quantities
+  const [localQuantities, setLocalQuantities] = useState<Record<string, number>>(
+    () =>
+      cartItems.reduce((acc, item) => {
+        const pid = item.productId || item.id!
+        acc[pid] = Number(item.quantity || item.qty || 1)
+        return acc
+      }, {} as Record<string, number>)
+  )
+
+  const updateQuantity = async (pid: string, change: number) => {
+    const newQty = Math.max((localQuantities[pid] || 1) + change, 1)
+    setLocalQuantities((prev) => ({ ...prev, [pid]: newQty }))
+
+    try {
+      const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
+      const res = await fetch(`${API}/api/cart/${pid}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQty }),
+      })
+      if (!res.ok) throw new Error('Failed to update quantity')
+      await refreshUser()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const removeItem = async (pid: string) => {
+    try {
+      const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
+      const res = await fetch(`${API}/api/cart/${pid}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      if (!res.ok) throw new Error('Failed to remove item')
+      await refreshUser()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   // Calculate total price
   const totalPrice = useMemo(() => {
     return cartItems.reduce((sum, item) => {
-      const qty = Number(item.quantity || item.qty || 1)
+      const pid = item.productId || item.id!
+      const qty = localQuantities[pid] || Number(item.quantity || item.qty || 1)
       const price = Number(item.price || 0)
       return sum + price * qty
     }, 0)
-  }, [cartItems])
+  }, [cartItems, localQuantities])
 
   if (!user?.email)
     return (
@@ -102,16 +146,19 @@ export default function CartPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-6 mb-8">
+            <div className="max-h-[600px] overflow-y-auto space-y-4">
               {cartItems.map((item) => {
                 const pid = item.productId || item.id!
-                const qty = Number(item.quantity || item.qty || 1)
+                const qty = localQuantities[pid] || Number(item.quantity || item.qty || 1)
 
                 return (
-                  <div key={pid} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
-                    <div className="w-32 h-32 bg-gray-100 relative">
+                  <div
+                    key={pid}
+                    className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center p-2 gap-4"
+                  >
+                    <div className="w-32 h-32 bg-gray-100 relative flex-shrink-0">
                       {item.image ? (
-                        <Image src={item.image} alt={item.name || 'Product'} fill className="object-cover" />
+                        <Image src={item.image} alt={item.name || 'Product'} fill className="object-cover rounded-md" />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
                           No Image
@@ -121,31 +168,34 @@ export default function CartPage() {
 
                     <div className="p-6 flex-1">
                       <h3 className="font-playfair text-xl font-semibold text-veblyssText mb-2">{item.name}</h3>
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-4 mb-2">
                         <span className="text-2xl font-bold">₹{item.price?.toFixed(2)}</span>
                         <span className="text-sm text-gray-500">Qty: {qty}</span>
                       </div>
-                    </div>
 
-                    <div className="p-4">
-                      <button
-                        onClick={async () => {
-                          try {
-                            const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
-                            const res = await fetch(`${API}/api/cart/${pid}`, {
-                              method: 'DELETE',
-                              credentials: 'include',
-                            })
-                            if (!res.ok) throw new Error('Failed to remove item')
-                            await refreshUser()
-                          } catch (e) {
-                            console.error(e)
-                          }
-                        }}
-                        className="px-4 py-2 border rounded-lg font-semibold text-veblyssPrimary"
-                      >
-                        Remove
-                      </button>
+                      {/* Quantity Controls */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => updateQuantity(pid, -1)}
+                          className="px-3 py-1 rounded-lg border transition-transform hover:scale-110 duration-200"
+                        >
+                          -
+                        </button>
+                        <span className="px-3 py-1 border rounded-lg">{qty}</span>
+                        <button
+                          onClick={() => updateQuantity(pid, 1)}
+                          className="px-3 py-1 rounded-lg border transition-transform hover:scale-110 duration-200"
+                        >
+                          +
+                        </button>
+
+                        <button
+                          onClick={() => removeItem(pid)}
+                          className="ml-auto px-4 py-2 border rounded-lg font-semibold text-red-600 transition-colors hover:bg-red-100 duration-200"
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )
@@ -153,11 +203,11 @@ export default function CartPage() {
             </div>
 
             {/* Total Price & Checkout */}
-            <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center mt-6 sticky bottom-0 z-10">
               <span className="text-xl md:text-2xl font-bold text-veblyssText">Total: ₹{totalPrice.toFixed(2)}</span>
               <button
                 onClick={() => alert('Temporary checkout clicked!')}
-                className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6]"
+                className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6] transition-transform hover:scale-105 duration-300"
               >
                 Checkout
               </button>
