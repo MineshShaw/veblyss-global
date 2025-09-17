@@ -48,7 +48,6 @@ router.post('/', async (req, res) => {
     }
 
     user.cartdata = cart
-    user.markModified("cartdata")
     await user.save()
 
     return res.json({ cart: user.cartdata })

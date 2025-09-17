@@ -50,21 +50,28 @@ export default function CartPage() {
     }
   }
 
-  // Normalize cart items from user data itself
+  // Normalize cart items from user data
   const cartItems: CartItemMeta[] = useMemo(() => {
     if (!user?.cartdata) return []
-    if (Array.isArray(user.cartdata)) {
-      return user.cartdata
-    } else if (typeof user.cartdata === 'object') {
+    if (Array.isArray(user.cartdata)) return user.cartdata
+    else if (typeof user.cartdata === 'object')
       return Object.entries(user.cartdata).map(([productId, meta]) => ({
         productId,
         ...(meta as CartItemMeta),
       }))
-    }
     return []
   }, [user])
 
   const itemCount = cartItems.length
+
+  // Calculate total price
+  const totalPrice = useMemo(() => {
+    return cartItems.reduce((sum, item) => {
+      const qty = Number(item.quantity || item.qty || 1)
+      const price = Number(item.price || 0)
+      return sum + price * qty
+    }, 0)
+  }, [cartItems])
 
   if (!user?.email)
     return (
@@ -94,55 +101,68 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6">
-            {cartItems.map((item) => {
-              const pid = item.productId || item.id!
-              const qty = Number(item.quantity || item.qty || 1)
+          <>
+            <div className="grid grid-cols-1 gap-6 mb-8">
+              {cartItems.map((item) => {
+                const pid = item.productId || item.id!
+                const qty = Number(item.quantity || item.qty || 1)
 
-              return (
-                <div key={pid} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
-                  <div className="w-32 h-32 bg-gray-100 relative">
-                    {item.image ? (
-                      <Image src={item.image} alt={item.name || 'Product'} fill className="object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                        No Image
+                return (
+                  <div key={pid} className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
+                    <div className="w-32 h-32 bg-gray-100 relative">
+                      {item.image ? (
+                        <Image src={item.image} alt={item.name || 'Product'} fill className="object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                          No Image
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-6 flex-1">
+                      <h3 className="font-playfair text-xl font-semibold text-veblyssText mb-2">{item.name}</h3>
+                      <div className="flex items-center gap-4">
+                        <span className="text-2xl font-bold">₹{item.price?.toFixed(2)}</span>
+                        <span className="text-sm text-gray-500">Qty: {qty}</span>
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className="p-6 flex-1">
-                    <h3 className="font-playfair text-xl font-semibold text-veblyssText mb-2">{item.name}</h3>
-                    <div className="flex items-center gap-4">
-                      <span className="text-2xl font-bold">₹{item.price?.toFixed(2)}</span>
-                      <span className="text-sm text-gray-500">Qty: {qty}</span>
+                    <div className="p-4">
+                      <button
+                        onClick={async () => {
+                          try {
+                            const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
+                            const res = await fetch(`${API}/api/cart/${pid}`, {
+                              method: 'DELETE',
+                              credentials: 'include',
+                            })
+                            if (!res.ok) throw new Error('Failed to remove item')
+                            await refreshUser()
+                          } catch (e) {
+                            console.error(e)
+                          }
+                        }}
+                        className="px-4 py-2 border rounded-lg font-semibold text-veblyssPrimary"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
+                )
+              })}
+            </div>
 
-                  <div className="p-4">
-                    <button
-                      onClick={async () => {
-                        try {
-                          const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '')
-                          const res = await fetch(`${API}/api/cart/${pid}`, {
-                            method: 'DELETE',
-                            credentials: 'include',
-                          })
-                          if (!res.ok) throw new Error('Failed to remove item')
-                          await refreshUser()
-                        } catch (e) {
-                          console.error(e)
-                        }
-                      }}
-                      className="px-4 py-2 border rounded-lg font-semibold text-veblyssPrimary"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+            {/* Total Price & Checkout */}
+            <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center">
+              <span className="text-xl md:text-2xl font-bold text-veblyssText">Total: ₹{totalPrice.toFixed(2)}</span>
+              <button
+                onClick={() => alert('Temporary checkout clicked!')}
+                className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6]"
+              >
+                Checkout
+              </button>
+            </div>
+          </>
         )}
       </section>
     </div>
