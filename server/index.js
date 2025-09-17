@@ -18,11 +18,11 @@ connectDB();
 
 // Middlewares
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:3000", // frontend origin
-  credentials: true
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
 }));
+app.use(cookieParser());
 
 // API Endpoints
 app.get('/', (req, res) => res.send('Hello World!'));

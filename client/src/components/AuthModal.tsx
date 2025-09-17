@@ -88,6 +88,7 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setError(null);
     setLoading(true);
 
