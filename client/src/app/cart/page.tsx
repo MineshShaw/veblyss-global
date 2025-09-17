@@ -15,7 +15,7 @@ export default function CartPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [products, setProducts] = useState<any[]>([])
-  const [wishlist, setWishlist] = useState<Record<string, any>>({}) // productId -> meta saved by user
+  //const [wishlist, setWishlist] = useState<Record<string, any>>({}) // productId -> meta saved by user
 
   useEffect(() => {
     const load = async () => {
@@ -26,7 +26,7 @@ export default function CartPage() {
 
         // If no signed in user or no cart saved on user, show empty cart
         if (!user || !user.email) {
-          setWishlist({})
+          //setWishlist({})
           setProducts([])
           setLoading(false)
           return
@@ -34,7 +34,7 @@ export default function CartPage() {
 
         // tolerate multiple shapes: cartdata could be array or map
         const cart = user.cartdata || {}
-        setWishlist(user.wishlistdata || {})
+        //setWishlist(user.wishlistdata || {})
 
         let ids: string[] = []
         if (Array.isArray(cart)) {
@@ -95,7 +95,7 @@ export default function CartPage() {
         addressdata: u.addressdata ?? null,
       }))
     } catch (e) {
-      // ignore
+      console.error(e)
     }
   }
 

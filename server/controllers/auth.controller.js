@@ -38,16 +38,13 @@ export const signup = async (req, res) => {
 
     const token = await generateToken(newUser._id);
 
-    // when setting cookie after signup/signin
+    // cookie options: allow same-site proxy use in dev, require secure in production
     const cookieOptions = {
       httpOnly: true,
-      // Allow cross-site XHR in prod only if using HTTPS and real domain.
-      // In development use 'lax' (or 'none' if you confirm browser accepts it).
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      secure: process.env.NODE_ENV === "production", // require HTTPS in production
+      secure: process.env.NODE_ENV === "production", // 'none' requires secure in modern browsers
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     };
-
     res.cookie("token", token, cookieOptions);
     // hide password
     const out = newUser.toObject();

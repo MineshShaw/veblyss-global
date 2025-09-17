@@ -32,8 +32,8 @@ const ProfilePage = () => {
     setBusy(true);
     try {
       await apiLogout();
-    } catch (_) {
-      // ignore network error but still clear client state
+    } catch (e) {
+      console.error(e);
     } finally {
       dispatch(resetUser());
       setBusy(false);
