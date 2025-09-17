@@ -1,7 +1,12 @@
+"use client";
+
+import useCurrentUser from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  useCurrentUser();
+
   const productCategories = [
     { name: "Leather Products", href: "/products/leather" },
     { name: "Copper Products", href: "/products/copper" },

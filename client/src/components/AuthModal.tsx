@@ -98,10 +98,10 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
         : await login(email.trim(), password);
 
       const user = payload.user || payload;
+      console.log("Authenticated user:", user);
       dispatch(setUser({
         name: user.name ?? null,
         email: user.email ?? null,
-        password: null,
         cartdata: user.cartdata ?? null,
         wishlistdata: user.wishlistdata ?? null,
         orderdata: user.orderdata ?? null,
