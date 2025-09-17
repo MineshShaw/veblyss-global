@@ -83,10 +83,12 @@ export default function LeatherProducts() {
             addressdata: user.addressdata ?? null,
           }));
         }
+        console.log(user.cartdata)
       } catch (e) {
         console.error(e)
       }
-
+      console.log(JSON.stringify(body))
+        
       setNotice('Added to cart')
     } catch (err) {
       console.error(err)

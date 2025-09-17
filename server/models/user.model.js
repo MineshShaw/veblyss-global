@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema({
     },
     cartdata:{
         type: Object,
-        default:{}
+        default:{
+            productId: "",
+            quantity: 0,
+            name: "",
+            price: 0,
+            image: "",
+        }
     },
     wishlistdata:{
         type: Object,
