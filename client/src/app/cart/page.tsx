@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
-import { getCurrentUser } from '@/lib/Auth'
+import { getCurrentUser } from '@/lib/User'
 import { setUser } from '@/redux/userSlice'
 
 // --- Type Definitions ---
@@ -54,7 +54,6 @@ export default function CartPage() {
       if (u) dispatch(setUser({
         name: u.name ?? null,
         email: u.email ?? null,
-        password: null,
         cartdata: u.cartdata ?? null,
         wishlistdata: u.wishlistdata ?? null,
         orderdata: u.orderdata ?? null,
