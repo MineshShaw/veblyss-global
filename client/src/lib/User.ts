@@ -13,7 +13,7 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const updateUserProfile = async (name: string, email: string, addressdata: Array<object>) => {
+export const updateUserProfile = async (name: string, email: string) => {
   try {
     const response = await api.patch("/api/user/update-profile", { name, email });
     return response.data;
@@ -22,36 +22,19 @@ export const updateUserProfile = async (name: string, email: string, addressdata
   }
 };
 
-export const updateUserOrder = async (orderdata: object) => {
+export const addUserAddress = async (street: string, city: string, state: string, postalCode: string, country: string, phone: string) => {
   try {
-    const response = await api.patch("/api/user/update-order", { orderdata });
+    const response = await api.post("/api/user/add-address", { street, city, state, postalCode, country, phone });
     return response.data;
   } catch (error) {
+    console.error("Error adding address:", error);
     throw error;
   }
 };
 
-export const updateUserAddress = async (addressdata: object) => {
+export const deleteUserAddress = async (addressId: string) => {
   try {
-    const response = await api.patch("/api/user/update-address", { addressdata });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateUserWishlist = async (wishlistdata: object) => {
-  try {
-    const response = await api.patch("/api/user/update-wishlist", { wishlistdata });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateUserCart = async (cartdata: object) => {
-  try {
-    const response = await api.patch("/api/user/update-cart", { cartdata });
+    const response = await api.delete(`/api/user/delete-address/${addressId}`);
     return response.data;
   } catch (error) {
     throw error;

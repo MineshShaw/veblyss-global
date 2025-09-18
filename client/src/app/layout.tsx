@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReactReduxProvider from "./providers";
 
-
 export const metadata: Metadata = {
   title: "VeBlyss Global",
   description: "Your one-stop solution for lifestyle, fashion, and home products.",

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SocketAddress } from 'net';
 
 interface AddressData {
+  _id: string
   street: string
   city: string
   state: string
@@ -37,6 +39,20 @@ const userSlice = createSlice({
     resetUser() {
       return initialState;
     },
+    updateName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
+    updateEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    setAddresses(state, action: PayloadAction<Array<AddressData>>) {
+      state.addressdata = action.payload;
+    },
+    removeAddress(state, action: PayloadAction<string>) {
+      if (state.addressdata) {
+        state.addressdata = state.addressdata.filter((addr) => addr._id !== action.payload);
+      }
+    },
     updateCart(state, action: PayloadAction<Array<{ id: string; name: string; price: number }>>) {
       state.cartdata = action.payload;
     },
@@ -55,6 +71,10 @@ const userSlice = createSlice({
 export const {
   setUser,
   resetUser,
+  updateName,
+  updateEmail,
+  setAddresses,
+  removeAddress,
   updateCart,
   updateWishlist,
   updateOrder,
