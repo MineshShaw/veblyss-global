@@ -30,15 +30,15 @@ export const editCurrentUser = async (req, res) => {
   }
 };
 
-export const updateUserAddress = async (req, res) => {
+export const addUserAddress = async (req, res) => {
   const { userId } = req;
-  const { addressdata } = req.body;
+  const { street, city, state, postalCode, country, phone } = req.body;
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    user.addressdata = addressdata;
+    user.addressdata.push({ street, city, state, postalCode, country, phone });
     await user.save();
     return res.status(200).json(user);
   } catch (error) {
@@ -46,31 +46,15 @@ export const updateUserAddress = async (req, res) => {
   }
 };
 
-export const updateUserWishlist = async (req, res) => {
+export const deleteUserAddress = async (req, res) => {
   const { userId } = req;
-  const { wishlistdata } = req.body;
+  const { addressId } = req.params;
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    user.wishlistdata = wishlistdata;
-    await user.save();
-    return res.status(200).json(user);
-  } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-export const updateUserCart = async (req, res) => {
-  const { userId } = req;
-  const { cartdata } = req.body;
-  try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    user.cartdata = cartdata;
+    user.addressdata.pull(addressId);
     await user.save();
     return res.status(200).json(user);
   } catch (error) {
