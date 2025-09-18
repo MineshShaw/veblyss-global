@@ -1,16 +1,18 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js'
+import dotenv from 'dotenv'
 
+dotenv.config({ path: './.env' })
 const router = express.Router()
-const JWT_SECRET = process.env.JWT_SECRET || 'change-me'
+const JWT_SECRET = process.env.JWT_SECRET
 
 function getUserIdFromReq(req) {
   // prefer req.user if auth middleware populated it
   const uid = req.user?.id || req.user?._id
   if (uid) return uid
 
-  // otherwise look for token cookie or Authorization header
+  // otherwise check token
   const token = req.cookies?.token || (req.headers.authorization || '').split(' ')[1]
   if (!token) return null
 
@@ -23,27 +25,27 @@ function getUserIdFromReq(req) {
   }
 }
 
-// POST /api/cart  -> add/update a single product (body: { productId, quantity, name, price, image })
+// POST /api/cart -> add/update a product
 router.post('/', async (req, res) => {
   try {
     const userId = getUserIdFromReq(req)
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthenticated' })
-    }
+    if (!userId) return res.status(401).json({ error: 'Unauthenticated' })
 
     const { productId, quantity = 1, name, price, image } = req.body || {}
-    if (!productId) {
-      return res.status(400).json({ error: 'productId required' })
-    }
+    if (!productId) return res.status(400).json({ error: 'productId required' })
 
     const user = await User.findById(userId)
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' })
 
     const cart = user.cartdata || {}
-    // store snapshot for quick display; overwrite quantity if exists
-    cart[productId] = { quantity, name, price, image }
+    const prev = cart[productId] || {}
+
+    cart[productId] = {
+      name,
+      price,
+      image,
+      quantity: (prev.quantity || 0) + quantity, // increment if already exists
+    }
 
     user.cartdata = cart
     await user.save()
@@ -55,22 +57,17 @@ router.post('/', async (req, res) => {
   }
 })
 
-// PATCH /api/cart  -> update quantity { productId, quantity }
+// PATCH /api/cart -> update quantity
 router.patch('/', async (req, res) => {
   try {
     const userId = getUserIdFromReq(req)
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthenticated' })
-    }
+    if (!userId) return res.status(401).json({ error: 'Unauthenticated' })
+
     const { productId, quantity } = req.body || {}
-    if (!productId) {
-      return res.status(400).json({ error: 'productId required' })
-    }
+    if (!productId) return res.status(400).json({ error: 'productId required' })
 
     const user = await User.findById(userId)
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' })
 
     const cart = user.cartdata || {}
     if (Number(quantity) <= 0) {
@@ -92,18 +89,17 @@ router.patch('/', async (req, res) => {
 router.delete('/:productId', async (req, res) => {
   try {
     const userId = getUserIdFromReq(req)
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthenticated' })
-    }
+    if (!userId) return res.status(401).json({ error: 'Unauthenticated' })
+
     const { productId } = req.params || {}
     const user = await User.findById(userId)
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
     const cart = user.cartdata || {}
     if (cart[productId]) {
       delete cart[productId]
     }
+
     user.cartdata = cart
     await user.save()
     return res.json({ cart: user.cartdata })
