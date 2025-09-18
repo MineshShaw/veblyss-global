@@ -2,7 +2,7 @@
 
 import { setUser } from '@/redux/userSlice';
 import { getCurrentUser } from '@/lib/User';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
@@ -31,5 +31,5 @@ export default function useCurrentUser() {
     }
 
     fetchUser();
-  }, [])
+  }, [dispatch, router])
 }
