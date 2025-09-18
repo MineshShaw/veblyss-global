@@ -1,19 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface AddressData {
+  street: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+  phone: string
+}
+
 interface UserState {
   name: string | null;
   email: string | null;
-  password: string | null;
-  cartdata: object | null;
-  wishlistdata: object | null;
-  orderdata: object | null;
-  addressdata: object | null;
+  cartdata: Array<{ id: string; name: string; price: number }> | null;
+  wishlistdata: Array<{ id: string; name: string; price: number }> | null;
+  orderdata: Array<{ id: string; name: string; price: number }> | null;
+  addressdata: Array<AddressData> | null;
 }
 
 const initialState: UserState = {
   name: null,
   email: null,
-  password: null,
   cartdata: null,
   wishlistdata: null,
   orderdata: null,
@@ -30,16 +37,16 @@ const userSlice = createSlice({
     resetUser() {
       return initialState;
     },
-    updateCart(state, action: PayloadAction<object>) {
+    updateCart(state, action: PayloadAction<Array<{ id: string; name: string; price: number }>>) {
       state.cartdata = action.payload;
     },
-    updateWishlist(state, action: PayloadAction<object>) {
+    updateWishlist(state, action: PayloadAction<Array<{ id: string; name: string; price: number }>>) {
       state.wishlistdata = action.payload;
     },
-    updateOrder(state, action: PayloadAction<object>) {
+    updateOrder(state, action: PayloadAction<Array<{ id: string; name: string; price: number }>>) {
       state.orderdata = action.payload;
     },
-    updateAddress(state, action: PayloadAction<object>) {
+    updateAddress(state, action: PayloadAction<Array<AddressData>>) {
       state.addressdata = action.payload;
     },
   },
