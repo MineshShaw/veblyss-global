@@ -22,7 +22,7 @@ export default function ProductCard({product, setNotice}: {product: { id: string
         price: product.price,
         image: '/images/placeholder.png'
       }
-
+      console.log(body);
       
 
       // fetch latest user/cart from backend and update redux so Cart page shows new item
