@@ -7,22 +7,31 @@ import { setUser } from "@/redux/userSlice";
 import { RootState } from "@/redux/store";
 
 interface AddressData {
-    street: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-    phone: string;
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phone: string;
 }
 
 interface UserState {
-    name: string | null;
-    email: string | null;
-    cartdata: Record<string, number> | number[] | null;
-    wishlistdata: Record<string, number> | null;
-    orderdata: Record<string, number> | null;
-    addressdata: AddressData | null;
+  name: string | null;
+  email: string | null;
+  cartdata: Record<string, number> | number[] | null;
+  wishlistdata: Record<string, number> | null;
+  orderdata: Record<string, number> | null;
+  addressdata: AddressData[] | null;
 }
+
+const emptyAddress: AddressData = {
+  street: "",
+  city: "",
+  state: "",
+  postalCode: "",
+  country: "",
+  phone: "",
+};
 
 const EditProfileModal = ({
   open,
@@ -33,27 +42,50 @@ const EditProfileModal = ({
 }) => {
   const user = useSelector((state: RootState) => state.user) as UserState;
   const dispatch = useDispatch();
-  const addr = user.addressdata || {
-    street: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "",
-    phone: "",
-  };
-
   const [name, setName] = useState<string>(user?.name ?? "");
   const [email, setEmail] = useState<string>(user?.email ?? "");
-  const [street, setStreet] = useState<string>(addr.street);
-  const [city, setCity] = useState<string>(addr.city);
-  const [stateVal, setStateVal] = useState<string>(addr.state);
-  const [postalCode, setPostalCode] = useState<string>(addr.postalCode);
-  const [country, setCountry] = useState<string>(addr.country);
-  const [phone, setPhone] = useState<string>(addr.phone);
+  const [addresses, setAddresses] = useState<AddressData[]>(user.addressdata ?? [emptyAddress]);
+  const [editingIdx, setEditingIdx] = useState<number | null>(null);
+  const [newAddress, setNewAddress] = useState<AddressData>(emptyAddress);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!open) return null;
+
+  const handleAddAddress = () => {
+    setNewAddress(emptyAddress);
+    setEditingIdx(addresses.length);
+  };
+
+  const handleEditAddress = (idx: number) => {
+    setNewAddress(addresses[idx]);
+    setEditingIdx(idx);
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddressSave = () => {
+    const updatedAddresses = [...addresses];
+    if (editingIdx === addresses.length) {
+      // New address
+      updatedAddresses.push(newAddress);
+    } else if (editingIdx !== null) {
+      // Edit existing address
+      updatedAddresses[editingIdx] = newAddress;
+    }
+    setAddresses(updatedAddresses);
+    setEditingIdx(null);
+    setNewAddress(emptyAddress);
+  };
+
+  const handleRemoveAddress = (idx: number) => {
+    if (window.confirm("Are you sure you want to remove this address?")) {
+      setAddresses(addresses.filter((_, i) => i !== idx));
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,17 +96,17 @@ const EditProfileModal = ({
       const body = {
         name: name.trim(),
         email: email.trim(),
-        addressdata: {
-          street: street.trim(),
-          city: city.trim(),
-          state: stateVal.trim(),
-          postalCode: postalCode.trim(),
-          country: country.trim(),
-          phone: phone.trim(),
-        },
+        addressdata: addresses ? addresses.map(a => ({
+          street: a.street.trim(),
+          city: a.city.trim(),
+          state: a.state.trim(),
+          postalCode: a.postalCode.trim(),
+          country: a.country.trim(),
+          phone: a.phone.trim(),
+        })) : [],
       };
 
-      const res = await updateUserProfile(name, email);
+      const res = await updateUserProfile(name, email, body.addressdata);
 
       if (!res.ok)
         throw new Error(res?.error || `Update failed (${res.status})`);
@@ -156,81 +188,79 @@ const EditProfileModal = ({
             }}
           />
 
-          <div style={{ fontWeight: 600 }}>Address</div>
-
-          <input
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            placeholder="Street"
-            style={{
-              width: "100%",
-              padding: 10,
+          {/* Addresses Section */}
+          <div style={{ fontWeight: 600, marginTop: 16 }}>Addresses</div>
+          <div style={{ marginBottom: 12 }}>
+            {addresses.map((addr, idx) => (
+              <div key={idx} style={{
+                border: "1px solid #eee",
+                borderRadius: 8,
+                padding: 10,
+                margin: "8px 0",
+                background: "#f9f9f9",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 8,
+              }}>
+                <div style={{ flex: 1, fontSize: 15 }}>
+                  {addr.street}, {addr.city}, {addr.state} - {addr.postalCode}, {addr.country}
+                  <span style={{ color: '#888', fontSize: 13, marginLeft: 4 }}>({addr.phone})</span>
+                </div>
+                <button type="button" onClick={() => handleEditAddress(idx)} style={{ marginLeft: 4, fontSize: 13 }}>
+                  Edit
+                </button>
+                <button type="button" onClick={() => handleRemoveAddress(idx)} style={{ marginLeft: 4, fontSize: 13, color: "crimson" }}>
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={handleAddAddress} style={{
+              marginTop: 8,
+              padding: "8px 14px",
               borderRadius: 6,
-              border: "1px solid #ddd",
-            }}
-          />
-
-          <div style={{ display: "flex", gap: 8 }}>
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="City"
-              style={{
-                flex: 1,
-                padding: 10,
-                borderRadius: 6,
-                border: "1px solid #ddd",
-              }}
-            />
-            <input
-              value={stateVal}
-              onChange={(e) => setStateVal(e.target.value)}
-              placeholder="State"
-              style={{
-                flex: 1,
-                padding: 10,
-                borderRadius: 6,
-                border: "1px solid #ddd",
-              }}
-            />
+              background: "#e0f4f2",
+              border: "1px solid #b8e0dd",
+              color: "#368581",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}>
+              Add Address
+            </button>
           </div>
 
-          <div style={{ display: "flex", gap: 8 }}>
-            <input
-              value={postalCode}
-              onChange={(e) => setPostalCode(e.target.value)}
-              placeholder="Postal code"
-              style={{
-                flex: 1,
-                padding: 10,
-                borderRadius: 6,
-                border: "1px solid #ddd",
-              }}
-            />
-            <input
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              placeholder="Country"
-              style={{
-                flex: 1,
-                padding: 10,
-                borderRadius: 6,
-                border: "1px solid #ddd",
-              }}
-            />
-          </div>
-
-          <input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Phone"
-            style={{
-              width: "100%",
-              padding: 10,
-              borderRadius: 6,
-              border: "1px solid #ddd",
-            }}
-          />
+          {/* Address editor */}
+          {editingIdx !== null && (
+            <div style={{
+              background: "#f3fcfc",
+              border: "1px solid #b8e0dd",
+              borderRadius: 10,
+              padding: 14,
+              marginBottom: 10,
+            }}>
+              <div style={{ fontWeight: 500, marginBottom: 4 }}>
+                {editingIdx === addresses.length ? "Add New Address" : "Edit Address"}
+              </div>
+              <input name="street" value={newAddress.street} onChange={handleAddressChange} placeholder="Street" style={inputStyle} />
+              <div style={{ display: "flex", gap: 8 }}>
+                <input name="city" value={newAddress.city} onChange={handleAddressChange} placeholder="City" style={inputStyle} />
+                <input name="state" value={newAddress.state} onChange={handleAddressChange} placeholder="State" style={inputStyle} />
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input name="postalCode" value={newAddress.postalCode} onChange={handleAddressChange} placeholder="Postal code" style={inputStyle} />
+                <input name="country" value={newAddress.country} onChange={handleAddressChange} placeholder="Country" style={inputStyle} />
+              </div>
+              <input name="phone" value={newAddress.phone} onChange={handleAddressChange} placeholder="Phone" style={inputStyle} />
+              <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                <button type="button" onClick={handleAddressSave} style={{ ...buttonStyle, background: "#368581", color: "#fff" }}>
+                  Save Address
+                </button>
+                <button type="button" onClick={() => setEditingIdx(null)} style={buttonStyle}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
 
           {error && <div style={{ color: "crimson" }}>{error}</div>}
 
@@ -269,6 +299,25 @@ const EditProfileModal = ({
       </div>
     </div>
   );
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: 10,
+  borderRadius: 6,
+  border: "1px solid #ddd",
+  marginTop: 6,
+  marginBottom: 6,
+};
+
+const buttonStyle = {
+  flex: 1,
+  padding: 10,
+  borderRadius: 8,
+  border: "1px solid #ddd",
+  background: "#fff",
+  fontWeight: 600,
+  cursor: "pointer",
 };
 
 export default EditProfileModal;

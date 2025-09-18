@@ -141,7 +141,11 @@ const ProfilePage = () => {
               ) : (
                 <div className="bg-gray-50 p-4 rounded-lg text-sm">
                   <pre className="text-xs overflow-auto max-h-36">
-                    {JSON.stringify(user.wishlistdata, null, 2)}
+                    {user.wishlistdata && typeof user.wishlistdata === "object"
+                      ? Object.entries(user.wishlistdata)
+                          .map(([key, value]) => `${key}: ${JSON.stringify(value, null, 2)}`)
+                          .join("\n\n")
+                      : null}
                   </pre>
                 </div>
               )}
