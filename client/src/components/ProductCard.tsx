@@ -13,18 +13,6 @@ export default function ProductCard({product, setNotice}: {product: { id: string
 
   const addToCart = async (product: { id: string; name: string; price: number; }) => {
     try {
-      setLoadingAdd(true)
-      setNotice(null)
-      const body = {
-        productId: product.id,
-        quantity: 1,
-        name: product.name,
-        price: product.price,
-        image: '/images/placeholder.png'
-      }
-
-      
-
       // fetch latest user/cart from backend and update redux so Cart page shows new item
       try {
         const me = await getCurrentUser();
