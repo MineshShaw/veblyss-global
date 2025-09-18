@@ -38,7 +38,6 @@ export default function CartPage() {
         dispatch(setUser({
           name: u.name ?? null,
           email: u.email ?? null,
-          password: null,
           cartdata: u.cartdata ?? null,
           wishlistdata: u.wishlistdata ?? null,
           orderdata: u.orderdata ?? null,
