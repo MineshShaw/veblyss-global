@@ -1,5 +1,82 @@
 import mongoose from "mongoose";
 
+const cartItemSchema = new mongoose.Schema({
+    productId: {
+        type: String,
+        required: true,
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        default: 1,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
+});
+
+const wishlistItemSchema = new mongoose.Schema({
+    productId: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    }
+});
+
+const orderDataSchema = new mongoose.Schema({
+    orderId: {
+        type: String,
+        required: true,
+    },
+    products: {
+        type: [cartItemSchema],
+        required: true,
+    },
+    totalAmount: {
+        type: Number,
+        required: true,
+    },
+    orderDate: {
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "Pending",
+    }
+});
+
+const addressSchema = new mongoose.Schema({
+    street: String,
+    city: String,
+    state: String,
+    postalCode: String,
+    country: String,
+    phone: String,
+});
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -15,33 +92,20 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     cartdata:{
-        type: Object,
-        default:{
-            productId: "",
-            quantity: 0,
-            name: "",
-            price: 0,
-            image: "",
-        }
+        type: [cartItemSchema],
+        default:[]
     },
     wishlistdata:{
-        type: Object,
-        default:{}
+        type: [wishlistItemSchema],
+        default:[]
     },
     orderdata:{
-        type: Object,
-        default:{}
+        type: [orderDataSchema],
+        default:[]
     },
     addressdata:{
-        type: Object,
-        default:{
-            street: "",
-            city: "",
-            state: "",
-            postalCode: "",
-            country: "",
-            phone: "",
-        }
+        type: [addressSchema],
+        default:[]
     },
 },{minimize: false});
 

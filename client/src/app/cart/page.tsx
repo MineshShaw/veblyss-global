@@ -44,6 +44,7 @@ export default function CartPage() {
           addressdata: u.addressdata ?? null,
         }))
       }
+      console.log(u);
     } catch (e) {
       console.error(e)
     }

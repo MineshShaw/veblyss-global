@@ -13,9 +13,36 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const updateUserProfile = async (name: string, email: string) => {
+export const updateUserProfile = async (name: string, email: string, addressdata: Array<object>) => {
   try {
-    const response = await api.put("/api/user/update", { name, email });
+    const response = await api.patch("/api/user/update-profile", { name, email });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserOrder = async (orderdata: object) => {
+  try {
+    const response = await api.patch("/api/user/update-order", { orderdata });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserAddress = async (addressdata: object) => {
+  try {
+    const response = await api.patch("/api/user/update-address", { addressdata });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserWishlist = async (wishlistdata: object) => {
+  try {
+    const response = await api.patch("/api/user/update-wishlist", { wishlistdata });
     return response.data;
   } catch (error) {
     throw error;
@@ -24,7 +51,7 @@ export const updateUserProfile = async (name: string, email: string) => {
 
 export const updateUserCart = async (cartdata: object) => {
   try {
-    const response = await api.put("/api/user/update-cart", { cartdata });
+    const response = await api.patch("/api/user/update-cart", { cartdata });
     return response.data;
   } catch (error) {
     throw error;
