@@ -39,62 +39,6 @@ export default function LeatherProducts() {
     { name: "Sustainable Products", href: "/products/sustainable" },
   ];
 
-  const addToCart = async (product: { id: string; name: string; price: number; }) => {
-    try {
-      setLoadingAdd(true)
-      setNotice(null)
-      const body = {
-        productId: product.id,
-        quantity: 1,
-        name: product.name,
-        price: product.price,
-        image: '/images/placeholder.png'
-      }
-
-      // use explicit backend origin (set NEXT_PUBLIC_API_URL) and include credentials
-      const API = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/$/, "")
-      const res = await fetch(`${API}/api/cart`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(body)
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(()=>null)
-        throw new Error(err?.error || 'Could not add to cart')
-      }
-
-      // fetch latest user/cart from backend and update redux so Cart page shows new item
-      try {
-        const me = await getCurrentUser();
-        const user = me?.user ?? me;
-        if (user) {
-          dispatch(setUser({
-            name: user.name ?? null,
-            email: user.email ?? null,
-            password: null,
-            cartdata: user.cartdata ?? null,
-            wishlistdata: user.wishlistdata ?? null,
-            orderdata: user.orderdata ?? null,
-            addressdata: user.addressdata ?? null,
-          }));
-        }
-        console.log(user.cartdata)
-      } catch (e) {
-        console.error(e)
-      }
-      console.log(JSON.stringify(body))
-        
-      setNotice('Added to cart')
-    } catch (err) {
-      console.error(err)
-      setNotice('Add to cart failed')
-    } finally {
-      setLoadingAdd(false)
-      setTimeout(()=>setNotice(null), 3000)
-    }
-  }
-
   return (
     <div className="bg-veblyssBackground">
       {/* Hero Section */}
