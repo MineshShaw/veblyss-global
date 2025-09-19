@@ -32,4 +32,4 @@ app.use('/api/user', userRouter);
 app.use('/api/cart', cartRoutes);
 
 // Listener
-app.listen(port, () => console.log(`Server listening on port ${port}!`));
+app.listen(port, () => console.log(`Server listening on port ${port}! \nListening to requests from ${process.env.CLIENT_URL || "http://localhost:3000"}`));
