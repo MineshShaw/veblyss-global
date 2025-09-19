@@ -52,7 +52,7 @@ export default function ProductCard({
           setUser({
             name: user.name ?? null,
             email: user.email ?? null,
-            cartdata: user.cartdata ?? [],   // ✅ now always array
+            cartdata: user.cartdata ?? [],   
             wishlistdata: user.wishlistdata ?? [],
             orderdata: user.orderdata ?? [],
             addressdata: user.addressdata ?? [],
