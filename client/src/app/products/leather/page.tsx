@@ -9,12 +9,12 @@ export default function LeatherProducts() {
   const [notice, setNotice] = useState<string | null>(null)
 
   const products = [
-    { name: "Premium Leather Bags", id: "prod-1", price: 4999 },
-    { name: "Handcrafted Wallets", id: "prod-2", price: 1299 },
-    { name: "Leather Belts", id: "prod-3", price: 899 },
-    { name: "Travel Accessories", id: "prod-4", price: 2199 },
-    { name: "Leather Jackets", id: "prod-5", price: 8999 },
-    { name: "Executive Portfolios", id: "prod-6", price: 1799 },
+    { name: "Premium Leather Bags", id: "prod-1" },
+    { name: "Handcrafted Wallets", id: "prod-2"},
+    { name: "Leather Belts", id: "prod-3" },
+    { name: "Travel Accessories", id: "prod-4"},
+    { name: "Leather Jackets", id: "prod-5"},
+    { name: "Executive Portfolios", id: "prod-6"},
   ];
 
   const whyChooseFeatures = [

@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { getCurrentUser } from '@/lib/User'
 import { setUser, updateCartQuantity, removeFromCart } from '@/redux/userSlice'
+import { useRouter } from 'next/navigation'
 
 // --- Type Definitions ---
 interface CartItemMeta {
@@ -15,7 +16,6 @@ interface CartItemMeta {
   quantity?: number
   qty?: number
   name?: string
-  price?: number
   image?: string
 }
 
@@ -29,6 +29,7 @@ interface UserState {
 export default function CartPage() {
   const user = useSelector((state: RootState) => state.user) as UserState
   const dispatch = useDispatch()
+  const router = useRouter();
 
   const refreshUser = async () => {
     try {
@@ -51,7 +52,7 @@ export default function CartPage() {
     }
   }
 
-  // Normalize cart items
+  // Normalize wishlist items
   const cartItems: CartItemMeta[] = useMemo(() => {
     return Array.isArray(user?.cartdata) ? user.cartdata : []
   }, [user])
@@ -90,7 +91,7 @@ export default function CartPage() {
         body: JSON.stringify({ productId: pid, quantity: newQty }),
       })
       if (!res.ok) throw new Error('Failed to update quantity')
-      // Optionally refresh if backend returns updated cart
+      // Optionally refresh if backend returns updated wishlist
       await refreshUser()
     } catch (e) {
       console.error(e)
@@ -118,20 +119,11 @@ export default function CartPage() {
     }
   }
 
-  // Calculate total price
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce((sum, item) => {
-      const pid = item.productId || item.id!
-      const qty = localQuantities[pid] || Number(item.quantity || item.qty || 1)
-      const price = Number(item.price || 0)
-      return sum + price * qty
-    }, 0)
-  }, [cartItems, localQuantities])
 
   if (!user?.email)
     return (
       <div className="bg-veblyssBackground min-h-screen flex items-center justify-center">
-        <p className="text-veblyssText">Please login to view your cart</p>
+        <p className="text-veblyssText">Please login to view your wishlist</p>
       </div>
     )
 
@@ -142,15 +134,15 @@ export default function CartPage() {
           Your Cart ({itemCount})
         </h1>
         <p className="font-opensans text-veblyssTextLight max-w-2xl mx-auto">
-          Items in your cart. Proceed to checkout when ready.
+          Items in your wishlist. Proceed to checkout when ready.
         </p>
       </section>
 
       <section className="container mx-auto px-4">
         {cartItems.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-lg">
-            <h2 className="font-playfair text-2xl mb-4">Your cart is empty</h2>
-            <p className="text-veblyssText mb-6">Browse products and add items to your cart.</p>
+            <h2 className="font-serif text-2xl mb-4">Your wishlist is empty</h2>
+            <p className="text-veblyssText mb-6">Browse products and add items to your wishlist.</p>
             <Link
               href="/products"
               className="inline-block px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6]"
@@ -190,7 +182,6 @@ export default function CartPage() {
                         {item.name}
                       </h3>
                       <div className="flex items-center gap-4 mb-2">
-                        <span className="text-2xl font-bold">₹{item.price?.toFixed(2)}</span>
                         <span className="text-sm text-gray-500">Qty: {qty}</span>
                       </div>
 
@@ -202,7 +193,6 @@ export default function CartPage() {
                         >
                           -
                         </button>
-                        <span className="px-3 py-1 border rounded-lg">{qty}</span>
                         <button
                           onClick={() => updateQuantity(pid, 1)}
                           className="px-3 py-1 rounded-lg border transition-transform hover:scale-110 duration-200"
@@ -225,11 +215,8 @@ export default function CartPage() {
 
             {/* Total Price & Checkout */}
             <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center mt-6 sticky bottom-0 z-10">
-              <span className="text-xl md:text-2xl font-bold text-veblyssText">
-                Total: ₹{totalPrice.toFixed(2)}
-              </span>
               <button
-                onClick={() => alert('Temporary checkout clicked!')}
+                onClick={() => router.push('/contact')}
                 className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6] transition-transform hover:scale-105 duration-300"
               >
                 Checkout

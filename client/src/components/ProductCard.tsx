@@ -11,9 +11,8 @@ import axios from "axios";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/";
 
 interface Product {
-  id: string;
+  id: string | number;
   name: string;
-  price: number;
   image?: string;
 }
 
@@ -36,7 +35,6 @@ export default function ProductCard({
         {
           productId: p.id,
           name: p.name,
-          price: p.price,
           image: p.image || "/images/placeholder.png",
           quantity: 1,
         },
@@ -92,10 +90,6 @@ export default function ProductCard({
           {product.name}
         </h3>
 
-        <div className="mb-6">
-          <span className="text-2xl font-bold">₹{product.price.toFixed(2)}</span>
-        </div>
-
         <div className="flex justify-center gap-4">
           <button
             onClick={() => addToCart(product)}
@@ -103,7 +97,7 @@ export default function ProductCard({
             style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
             disabled={loadingAdd}
           >
-            {loadingAdd ? "Adding..." : "Add to Cart"}
+            {loadingAdd ? "Adding..." : "Add to Wishlist"}
           </button>
 
           <Link

@@ -1,7 +1,13 @@
+"use client";
+
+import ProductCard from "@/components/ProductCard";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function IndianHandicrafts() {
+  const [notice, setNotice] = useState<string | null>(null)
+  
   const products = [
     { name: "Wooden Sculptures", id: 1 },
     { name: "Textile Art Pieces", id: 2 },
@@ -84,35 +90,7 @@ export default function IndianHandicrafts() {
           {/* Dynamic Grid for Any Number of Products */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="h-96 bg-gray-300 relative overflow-hidden">
-                  <div className="w-full h-full bg-gray-300">
-                    <Image
-                      src='/images/placeholder.png'
-                      alt={product.name}
-                      className="object-cover w-full h-full"
-                      layout="fill"
-                    />
-                  </div>
-                </div>
-      
-                {/* Product Details */}
-                <div className="p-8 text-center">
-                  <h3 className="font-playfair font-semibold text-2xl text-veblyssText mb-6">
-                    {product.name}
-                  </h3>
-                  <button
-                    className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-8 py-3 rounded-xl hover:bg-opacity-90 transition-all duration-300"
-                    style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
-                  >
-                    Check More
-                  </button>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} setNotice={setNotice} />
             ))}
           </div>
         </div>
@@ -210,6 +188,12 @@ export default function IndianHandicrafts() {
           </div>
         </div>
       </section>
+
+      {notice && (
+        <div className="fixed bottom-6 right-6 bg-white rounded-lg p-3 shadow-lg">
+          <span>{notice}</span>
+        </div>
+      )}
     </div>
   );
 }

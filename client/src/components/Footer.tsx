@@ -3,10 +3,10 @@ export default function Footer() {
     <footer className="bg-teal-700 text-white py-8">
       <div className="mx-auto">
         {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-end items-start md:items-center border-b border-white pb-6 mb-6">
-          <div className="text-left px-10">
-            <h2 className="text-lg font-bold mb-2">VeBlyss Global Pvt Ltd</h2>
-            <ul className="space-y-1 text-sm">
+        <div className="flex flex-col md:flex-row justify-start items-start md:items-center border-b border-white pb-6 mb-6">
+          <div className="text-left p-4">
+            <h2 className="text-lg font-bold font-serif mb-2">VeBlyss Global Pvt Ltd</h2>
+            <ul className="flex flex-wrap items-center gap-5 font-serif text-xl">
               <li>Address</li>
               <li>Email</li>
               <li>Phone</li>
@@ -18,7 +18,7 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="text-left px-10">
-          <p className="text-white text-sm">Domain details</p>
+          <p className="text-white text-m font-semibold opacity-80"><span className="font-bold text-xl">©</span> 2025. All rights reserved by Veblyss Global.</p>
         </div>
       </div>
     </footer>

@@ -33,7 +33,7 @@ export default function VisionMission() {
             style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
             Our Vision & Mission
           </h1>
-          <p className="font-opensans font-semibold text-xl md:text-2xl lg:text-3xl text-veblyssTextLight mb-12 max-w-4xl"
+          <p className="font-sherif text-xl md:text-2xl lg:text-3xl text-veblyssTextLight mb-12 max-w-4xl"
             style={{ color: "#FFECE0", fontFamily: "Open Sans" }}>
             Purpose-led. Globally focused. Rooted in Indian heritage
           </p>
@@ -169,7 +169,7 @@ export default function VisionMission() {
       {/* Quote Section */}
       <section className="bg-veblyssSecondary py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto">
             <blockquote className="font-playfair text-2xl lg:text-3xl text-veblyssPrimary leading-relaxed"
               style={{ color: "#368581", fontFamily: "Playfair Display" }}>
               <span className="font-bold">
@@ -177,8 +177,8 @@ export default function VisionMission() {
                 our goal is to share that strength with the world, sustainably
                 and ethically.&quot;
               </span>
-              <footer className="mt-8">
-                <cite className="font-normal text-xl">– VeBlyss</cite>
+              <footer className="mt-8 text-right">
+                <cite className="font-semibold text-2xl">– VeBlyss</cite>
               </footer>
             </blockquote>
           </div>

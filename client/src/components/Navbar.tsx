@@ -12,41 +12,36 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About Us", path: "/about" },
-    { name: "Vision & Mission", path: "/vision-mission" },
     { name: "Products", path: "/products" },
-    { name: "Contact", path: "/contact" },
+    { name: "Wishlist", path: "/wishlist" },
     { name: "Profile", path: "/profile" },
-    { name: "Cart", path: "/cart" },
+    { name: "Vision & Mission", path: "/vision-mission" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-11/12 px-4">
       {/* Outer Rounded Container */}
-      <div className="bg-[#4c8380] rounded-xl shadow-md flex items-center justify-between px-6 py-3">
+      <div className="bg-[#368580] rounded-2xl flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <Image
-            src="/images/logo.png"
+            src="/images/logo.jpg"
             alt="VeBlyss Global Logo"
-            width={40}
-            height={40}
+            className="w-auto h-auto rounded-full"
+            width={180}
+            height={50}
           />
-          <div className="leading-tight text-white">
-            <h1 className="text-lg font-bold tracking-wide">VeBlyss Global</h1>
-            <p className="text-xs font-light italic">
-              Lifestyle. Fashion. Home & Beyond
-            </p>
-          </div>
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden sm:flex space-x-4 text-white">
+        <div className="hidden md:flex space-x-4 text-white">
           {navLinks.map((link) => (
             <div key={link.name} className="flex items-center">
               <Link
                 href={link.path}
-                className={`transition-colors ${
+                className={`transition-colors font-serif text-xl sm:text-sm ${
                   pathname === link.path
                     ? "font-bold"
                     : "font-normal hover:font-bold"
@@ -60,7 +55,7 @@ const Navbar = () => {
 
         {/* Mobile Hamburger */}
         <button
-          className="sm:hidden text-white"
+          className="md:hidden text-white"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -69,12 +64,12 @@ const Navbar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="sm:hidden mt-2 bg-[#4f8685] rounded-xl shadow-md flex flex-col items-center py-4 space-y-3 text-white">
+        <div className="md:hidden max-w-fit mt-2 bg-[#4f8685] rounded-xl shadow-md flex flex-col text-xl md:text-2xl lg:text-2xl absolute right-10 items-center p-4 text-white">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.path}
-              className={`${
+              className={`p-2 ${
                 pathname === link.path
                   ? "font-bold"
                   : "font-normal hover:font-bold"
