@@ -54,7 +54,7 @@ const modalStyle = {
     borderRadius: "5px",
     border: "none",
     color: "#fff",
-    background: "linear-gradient(90deg, #b48e3e 30%, #7d553b 100%)",
+    background: "#368580",
     fontWeight: 600,
     fontSize: "1.05rem",
     letterSpacing: "1px",

@@ -62,23 +62,25 @@ export default function Home() {
             fill
             priority
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 bottom-[100px]">
+            <div className="max-w-6xl absolute flex flex-col items-center top-50">
             <h1
-              className="font-bold text-4xl md:text-6xl lg:text-7xl mb-6 max-w-6xl"
-              style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}
+              className="font-bold text-4xl md:text-6xl lg:text-6xl font-serif mb-6 max-w-6xl"
+              style={{ color: "#FFECE0", fontFamily: "Merryweather" }}
             >
               Exporting India&apos;s Finest to the World
             </h1>
             <p
-              className="font-semibold text-xl md:text-2xl lg:text-3xl mb-12 max-w-4xl"
+              className="font-semibold text-xl font-sans-serif text-shadow-black md:text-2xl lg:text-2xl mb-12 max-w-4xl"
               style={{ color: "#FAF9F6", fontFamily: "Open Sans" }}
             >
               From handcrafted elegance to sustainable essentials – delivered
               globally
             </p>
+            </div>
             <Link
               href="/products"
-              className="text-xl md:text-2xl px-8 py-4 rounded-xl hover:bg-opacity-90 transition-all duration-300 shadow-lg font-bold"
+              className="text-xl md:text-2xl px-8 py-4 rounded-xl bottom-5 absolute hover:bg-opacity-90 transition-all duration-300 shadow-lg font-bold"
               style={{
                 backgroundColor: "#368581",
                 color: "#FAF9F6",
@@ -250,16 +252,12 @@ export default function Home() {
             Markets We Serve
           </h2>
 
-          <div className="flex overflow-x-auto space-x-8 pb-4">
+          <div className="flex flex-wrap justify-center gap-8">
             {markets.map((market, index) => (
-              <div key={market} className="flex-shrink-0 w-72 text-center">
-                <div className="h-28 bg-gray-300 rounded-lg mb-4 overflow-hidden">
+              <div key={market} className="text-center">
+                <div className="h-28 bg-gray-300 rounded-lg w-full mb-4 overflow-hidden">
                   <Image
-                    src={
-                      index % 2 === 0
-                        ? "https://api.builder.io/api/v1/image/assets/TEMP/5bd98620bf0a51915f69da3e5dcaef76593599a9?width=576"
-                        : "https://api.builder.io/api/v1/image/assets/TEMP/196fe813a9d622fb79ada3987e37ff5734ed983c?width=576"
-                    }
+                    src={"/images/placeholder.png"}
                     alt={market}
                     className="w-full h-full object-cover"
                     width={400}

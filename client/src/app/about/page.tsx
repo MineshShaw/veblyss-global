@@ -54,7 +54,7 @@ export default function About() {
               style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
               About VeBlyss Global Pvt Ltd
             </h1>
-            <p className="font-opensans font-semibold text-xl md:text-2xl lg:text-3xl text-veblyssTextLight mb-12 max-w-4xl"
+            <p className="font-sherif text-xl md:text-2xl lg:text-3xl text-veblyssTextLight mb-12 max-w-4xl"
               style={{ color: "#FFECE0", fontFamily: "Open Sans" }}>
               Where Indian Craft Meets Global Standards
             </p>

@@ -34,7 +34,6 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
 
   const navItems = [
     { href: "/profile", label: "Overview" },
-    { href: "/profile/wishlist", label: "Wishlist" },
     { href: "/profile/orders", label: "Orders" },
     { href: "/profile/addresses", label: "Addresses" },
     { href: "/profile/settings", label: "Settings" },

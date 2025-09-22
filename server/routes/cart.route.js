@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
     const userId = getUserIdFromReq(req);
     if (!userId) return res.status(401).json({ error: 'Unauthenticated' });
 
-    const { productId, quantity = 1, name, price, image } = req.body || {};
+    const { productId, quantity = 1, name, image } = req.body || {};
     if (!productId) return res.status(400).json({ error: 'productId required' });
 
     const user = await User.findById(userId);
@@ -49,7 +49,6 @@ router.post('/', async (req, res) => {
       cart.push({
         productId,
         name,
-        price,
         image,
         quantity,
       });

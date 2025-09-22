@@ -88,7 +88,7 @@ export default function Products() {
               Our Product Range
             </h1>
             <p
-              className="font-semibold text-xl md:text-2xl lg:text-3xl mb-12 max-w-4xl transition-all duration-700 ease-out delay-200"
+              className="font-sherif text-xl md:text-2xl lg:text-3xl mb-12 max-w-4xl transition-all duration-700 ease-out delay-200"
               style={{ color: "#FAF9F6", fontFamily: "Open Sans" }}
             >
               Discover India&apos;s finest exports across five premium categories

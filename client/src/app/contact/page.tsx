@@ -14,7 +14,7 @@ export default function Contact() {
             style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
             Contact Us
           </h1>
-          <p className="font-opensans font-semibold text-xl md:text-2xl text-veblyssTextLight max-w-3xl"
+          <p className="font-sherif text-xl md:text-2xl text-veblyssTextLight max-w-3xl"
             style={{ color: "#FFECE0", fontFamily: "Playfair Display" }}>
             Ready to explore our premium Indian exports? Let&apos;s build a
             partnership.
