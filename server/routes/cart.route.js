@@ -38,19 +38,20 @@ router.post('/', async (req, res) => {
 
     let cart = user.cartdata || [];
 
-    // check if product already exists
-    const existingIndex = cart.findIndex(item => item.productId === productId);
+    // Normalize comparisons by casting to string to avoid ObjectId vs string mismatches
+    const pid = String(productId);
+    const existingIndex = cart.findIndex(item => String(item.productId) === pid);
 
     if (existingIndex >= 0) {
-      // update quantity
-      cart[existingIndex].quantity += quantity;
+      // update quantity safely
+      cart[existingIndex].quantity = Number(cart[existingIndex].quantity || 0) + Number(quantity || 1);
     } else {
-      // push new item
+      // push new item (store productId as string)
       cart.push({
-        productId,
+        productId: pid,
         name,
         image,
-        quantity,
+        quantity: Number(quantity || 1),
       });
     }
 
@@ -77,7 +78,8 @@ router.patch('/', async (req, res) => {
 
     let cart = user.cartdata || []
 
-    const idx = cart.findIndex(item => item.productId === productId)
+    const pid = String(productId)
+    const idx = cart.findIndex(item => String(item.productId) === pid)
     if (idx >= 0) {
       if (Number(quantity) <= 0) {
         cart.splice(idx, 1) // remove item
@@ -106,7 +108,9 @@ router.delete('/:productId', async (req, res) => {
     if (!user) return res.status(404).json({ error: 'User not found' })
 
     let cart = user.cartdata || []
-    cart = cart.filter(item => item.productId !== productId)
+    const pid = String(productId)
+    // normalize comparison
+    cart = cart.filter(item => String(item.productId) !== pid)
 
     user.cartdata = cart
     await user.save()

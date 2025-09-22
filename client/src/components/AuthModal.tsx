@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, FC, MouseEvent, FormEvent } from "react";
+import React, { useState, FC, MouseEvent, FormEvent, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login, signup } from "@/lib/Auth";
 import { setUser } from "@/redux/userSlice";
@@ -21,6 +21,7 @@ const modalStyle = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    transition: "opacity 220ms ease",
   },
   container: {
     background: "#fff",
@@ -30,6 +31,8 @@ const modalStyle = {
     width: "100%",
     padding: "2rem",
     fontFamily: "inherit",
+    transition: "transform 240ms cubic-bezier(.2,.9,.2,1), opacity 240ms ease",
+    transformOrigin: "center center",
   },
   heading: {
     fontWeight: 700,
@@ -60,6 +63,7 @@ const modalStyle = {
     letterSpacing: "1px",
     cursor: "pointer",
     boxShadow: "0 2px 8px rgba(180, 142, 62, 0.1)",
+    transition: "transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease",
   },
   switch: {
     color: "#7d553b",
@@ -67,7 +71,23 @@ const modalStyle = {
     fontWeight: 500,
     textAlign: "center" as const,
     marginTop: "0.7rem",
-  }
+  },
+  successBadge: {
+    position: "absolute" as const,
+    top: "-28px",
+    right: "calc(50% - 28px)",
+    width: "56px",
+    height: "56px",
+    borderRadius: "999px",
+    background: "#22c55e",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "0 6px 18px rgba(34,197,94,0.2)",
+    transform: "scale(0.8)",
+    opacity: 0,
+    transition: "transform 280ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease",
+  },
 };
 
 const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
@@ -80,10 +100,26 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // animation states
+  const [mounted, setMounted] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    // trigger entrance animation
+    // slight delay makes transition smoother
+    const t = window.setTimeout(() => setMounted(true), 10);
+    return () => window.clearTimeout(t);
+  }, [open]);
+
   if (!open) return null;
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
+    if (e.target === e.currentTarget) {
+      // play exit animation then close
+      setMounted(false);
+      window.setTimeout(() => onClose(), 220);
+    }
   };
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -98,33 +134,81 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
         : await login(email.trim(), password);
 
       const user = payload.user || payload;
-      console.log("Authenticated user:", user);
-      dispatch(setUser({
-        name: user.name ?? null,
-        email: user.email ?? null,
-        cartdata: user.cartdata ?? null,
-        wishlistdata: user.wishlistdata ?? null,
-        orderdata: user.orderdata ?? null,
-        addressdata: user.addressdata ?? null,
-      }));
+      dispatch(
+        setUser({
+          name: user.name ?? null,
+          email: user.email ?? null,
+          cartdata: user.cartdata ?? null,
+          wishlistdata: user.wishlistdata ?? null,
+          orderdata: user.orderdata ?? null,
+          addressdata: user.addressdata ?? null,
+        })
+      );
 
-      setName(""); setEmail(""); setPassword("");
-      onClose();
-      // no full page reload — Redux state updated and UI will respond
+      // gentle success animation before closing
+      setSuccess(true);
+      // keep loading state briefly so buttons show feedback
+      setLoading(false);
+
+      // show success for a short while then close with exit animation
+      window.setTimeout(() => {
+        setMounted(false); // trigger exit animation
+        window.setTimeout(() => {
+          // reset local fields and then close modal
+          setName("");
+          setEmail("");
+          setPassword("");
+          setSuccess(false);
+          onClose();
+        }, 240);
+      }, 800);
     } catch (err) {
       console.error(err);
       setError("Authentication failed");
-    } finally {
       setLoading(false);
     }
   };
 
+  const containerDynamicStyle = {
+    ...modalStyle.container,
+    transform: mounted ? "translateY(0) scale(1)" : "translateY(8px) scale(0.98)",
+    opacity: mounted ? 1 : 0,
+  };
+
+  const backdropDynamicStyle = {
+    ...modalStyle.backdrop,
+    opacity: mounted ? 1 : 0,
+    background: mounted ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0.0)",
+  };
+
+  const successBadgeStyle = {
+    ...modalStyle.successBadge,
+    transform: success ? "scale(1)" : modalStyle.successBadge.transform,
+    opacity: success ? 1 : 0,
+  };
+
   return (
-    <div style={modalStyle.backdrop} onClick={handleBackdropClick}>
-      <div style={modalStyle.container} onClick={(e) => e.stopPropagation()}>
+    <div style={backdropDynamicStyle} onClick={handleBackdropClick} aria-hidden={!mounted}>
+      <div
+        style={containerDynamicStyle}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={isSignup ? "Sign up" : "Login"}
+      >
+        {/* success badge */}
+        <div style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+          <div style={successBadgeStyle} aria-hidden={!success}>
+            {/* simple checkmark svg */}
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M20 6L9 17l-5-5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+
         <div style={modalStyle.heading}>{isSignup ? "Create an Account" : "Welcome Back"}</div>
 
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} aria-busy={loading || success}>
           {isSignup && (
             <input
               style={modalStyle.input}
@@ -133,7 +217,8 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
               required
               autoComplete="name"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
+              disabled={loading || success}
             />
           )}
 
@@ -144,7 +229,8 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
             required
             autoComplete="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={loading || success}
           />
 
           <input
@@ -154,17 +240,38 @@ const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
             required
             autoComplete={isSignup ? "new-password" : "current-password"}
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading || success}
           />
 
-          {error && <div style={{ color: "crimson", marginTop: 8, textAlign: "center" }}>{error}</div>}
+          {error && (
+            <div style={{ color: "crimson", marginTop: 8, textAlign: "center" }}>{error}</div>
+          )}
 
-          <button type="submit" style={{ ...modalStyle.button, opacity: loading ? 0.8 : 1 }} disabled={loading}>
-            {isSignup ? (loading ? "Signing up..." : "Sign Up") : (loading ? "Signing in..." : "Login")}
+          <button
+            type="submit"
+            style={{
+              ...modalStyle.button,
+              opacity: loading || success ? 0.9 : 1,
+              transform: loading ? "translateY(0) scale(0.995)" : undefined,
+              pointerEvents: loading || success ? "none" : undefined,
+            }}
+            disabled={loading || success}
+          >
+            {success ? "Welcome!" : isSignup ? (loading ? "Signing up..." : "Sign Up") : (loading ? "Signing in..." : "Login")}
           </button>
         </form>
 
-        <div style={modalStyle.switch} onClick={() => { setIsSignup(!isSignup); setError(null); }} role="button" tabIndex={0}>
+        <div
+          style={modalStyle.switch}
+          onClick={() => {
+            if (loading) return;
+            setIsSignup(!isSignup);
+            setError(null);
+          }}
+          role="button"
+          tabIndex={0}
+        >
           {isSignup ? "Already have an account? Login" : "Don't have an account? Sign Up"}
         </div>
       </div>
