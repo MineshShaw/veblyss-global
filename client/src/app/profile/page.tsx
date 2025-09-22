@@ -15,6 +15,9 @@ export default function ProfileOverview() {
     return () => clearTimeout(t);
   }, []);
 
+  // simple cart count from user.cartdata (assumed array)
+  const cartCount = user?.cartdata && Array.isArray(user.cartdata) ? user.cartdata.length : 0;
+
   if (!user?.name) {
     return <AuthModal open={true} onClose={() => {}} />;
   }
@@ -48,7 +51,8 @@ export default function ProfileOverview() {
   }
 
   const cards = [
-    { title: "Wishlist", count: safeCount(user.wishlistdata) },
+    // wishlist count now reflects cart product count (from user.cartdata)
+    { title: "Wishlist", count: cartCount },
     { title: "Orders", count: safeCount(user.orderdata) },
     { title: "Addresses", count: safeCount(user.addressdata) },
   ];
@@ -56,30 +60,31 @@ export default function ProfileOverview() {
   const firstName = (user.name || "").split(" ")[0] || user.name;
 
   return (
-    <div className="p-4 sm:p-6">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+    <div className="p-3 sm:p-6">
+      <h1 className="text-xl sm:text-3xl font-bold mb-4 text-center">
         Profile Overview
       </h1>
 
-      <div className="max-w-4xl mx-auto">
-        {/* responsive grid: 1 col on mobile, 2 on sm, 3 on md+ */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {/* container: full width on mobile, centered on larger screens */}
+      <div className="w-full max-w-screen-sm sm:max-w-3xl mx-auto">
+        {/* responsive grid: compact cards on mobile, 2 cols on sm, 3 on md+ */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {cards.map((card, idx) => {
-            const delay = `${idx * 90}ms`;
+            const delay = `${idx * 70}ms`;
             return (
               <div
                 key={card.title}
                 style={{ transitionDelay: delay }}
                 className={
-                  "bg-white p-4 rounded-lg shadow flex flex-col items-center justify-center min-h-[110px] sm:min-h-[120px] transition-transform transition-opacity duration-400 ease-out transform " +
-                  (mounted
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4") +
-                  " hover:-translate-y-1 hover:scale-105 hover:shadow-lg"
+                  "bg-white p-3 sm:p-4 rounded-lg shadow-sm sm:shadow flex flex-col items-center justify-center min-h-[76px] sm:min-h-[110px] transition-transform transition-opacity duration-300 ease-out transform " +
+                  (mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3") +
+                  " hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-md"
                 }
               >
-                <h2 className="font-semibold text-lg">{card.title}</h2>
-                <p className="mt-2 text-3xl font-bold">
+                <h2 className="font-semibold text-sm sm:text-lg text-center">
+                  {card.title}
+                </h2>
+                <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-bold">
                   <CountUp to={card.count} />
                 </p>
               </div>
@@ -87,17 +92,24 @@ export default function ProfileOverview() {
           })}
         </div>
 
-        {/* optional extra details area */}
-        <div className="mt-6 bg-white rounded-lg shadow p-4 transition-opacity duration-400" style={{ opacity: mounted ? 1 : 0 }}>
-          <h3 className="font-semibold mb-2">Account</h3>
+        {/* account details: compact, stacked on mobile */}
+        <div
+          className="mt-4 sm:mt-6 bg-white rounded-lg shadow-sm p-3 sm:p-4 transition-opacity duration-300"
+          style={{ opacity: mounted ? 1 : 0 }}
+        >
+          <h3 className="font-semibold mb-2 text-base sm:text-lg">Account</h3>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <p className="text-sm text-gray-600">Name</p>
-              <p className="font-medium">Welcome {firstName}</p>
+              <p className="text-xs sm:text-sm text-gray-600">Name</p>
+              <p className="font-medium text-sm sm:text-base">
+                Welcome {firstName}
+              </p>
             </div>
             <div className="mt-2 sm:mt-0">
-              <p className="text-sm text-gray-600">Email</p>
-              <p className="font-medium">{user.email}</p>
+              <p className="text-xs sm:text-sm text-gray-600">Email</p>
+              <p className="font-medium text-sm sm:text-base break-words">
+                {user.email}
+              </p>
             </div>
           </div>
         </div>
