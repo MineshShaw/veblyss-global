@@ -18,7 +18,7 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="text-left px-10">
-          <p className="text-white text-m font-semibold">@Veblyss Global</p>
+          <p className="text-white text-m font-semibold opacity-80"><span className="font-bold text-xl">©</span> 2025. All rights reserved by Veblyss Global.</p>
         </div>
       </div>
     </footer>
