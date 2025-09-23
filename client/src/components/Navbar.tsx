@@ -78,7 +78,7 @@ const Navbar = () => {
                   className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 text-sm font-semibold transition-transform duration-300 ease-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/25 ${
                     mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
                   }`}
-                  title={user?.name || user?.email}
+                  title={(user?.name || user?.email) ?? undefined}
                 >
                   <span className="text-white">{initials}</span>
                 </Link>
@@ -127,7 +127,7 @@ const Navbar = () => {
             href="/profile"
             className="mb-2 inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/10 text-lg font-semibold transition-transform duration-200 ease-out hover:scale-105"
             onClick={() => setIsOpen(false)}
-            title={user?.name || user?.email}
+            title={(user?.name || user?.email) ?? undefined}
           >
             {initials}
           </Link>
