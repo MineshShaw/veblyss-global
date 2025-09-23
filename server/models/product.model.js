@@ -27,6 +27,7 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-const productModel = mongoose.model.Product || mongoose.model("Product", productSchema);
+// Fix model export to avoid re-defining the model on hot reload / multiple requires
+const productModel = mongoose.models.Product || mongoose.model("Product", productSchema);
 
 export default productModel;

@@ -29,11 +29,11 @@ export default function ProductCard({
   const addToCart = async (p: Product) => {
     setLoadingAdd(true);
     try {
-      // add/update product in cart
+      // send productId as string to keep server/client types consistent
       await axios.post(
         `${API_URL}api/cart`,
         {
-          productId: p.id,
+          productId: String(p.id),
           name: p.name,
           image: p.image || "/images/placeholder.png",
           quantity: 1,
@@ -58,8 +58,6 @@ export default function ProductCard({
         );
       }
 
-      console.log(user.cartdata);
-      console.log(product)
       setNotice("Added to cart");
     } catch (err) {
       console.error("addToCart error:", err);
@@ -93,16 +91,20 @@ export default function ProductCard({
         <div className="flex justify-center gap-4">
           <button
             onClick={() => addToCart(product)}
-            className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-6 py-3 rounded-xl hover:bg-opacity-90 transition-all duration-300"
+            // added transform / transition / focus / shadow animations
+            className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-6 py-3 rounded-xl hover:bg-opacity-90 transition-transform duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-veblyssPrimary/30 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
             disabled={loadingAdd}
           >
-            {loadingAdd ? "Adding..." : "Add to Wishlist"}
+            <span className="inline-block transition-transform duration-300 group-hover:translate-y-[-2px]">
+              {loadingAdd ? "Adding..." : "Add to Wishlist"}
+            </span>
           </button>
 
           <Link
             href="#"
-            className="inline-block text-veblyssPrimary font-opensans font-bold text-lg px-4 py-3 rounded-xl border"
+            // added subtle hover scale and border color shift
+            className="inline-block text-veblyssPrimary font-opensans font-bold text-lg px-4 py-3 rounded-xl border transition-transform duration-300 hover:scale-105 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-veblyssPrimary/20"
           >
             Check More
           </Link>

@@ -145,7 +145,8 @@ export default function CartPage() {
             <p className="text-veblyssText mb-6">Browse products and add items to your wishlist.</p>
             <Link
               href="/products"
-              className="inline-block px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6]"
+              // added hover scale and shadow
+              className="inline-block px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6] transition-transform duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#368581]/25"
             >
               Browse Products
             </Link>
@@ -160,7 +161,8 @@ export default function CartPage() {
                 return (
                   <div
                     key={pid}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center p-2 gap-4"
+                    // added subtle hover scale and smoother transition for list items
+                    className="bg-white rounded-xl shadow-lg overflow-hidden flex items-center p-2 gap-4 transition-transform duration-300 hover:scale-102 hover:shadow-xl"
                   >
                     <div className="w-32 h-32 bg-gray-100 relative flex-shrink-0">
                       {item.image ? (
@@ -189,20 +191,22 @@ export default function CartPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => updateQuantity(pid, -1)}
-                          className="px-3 py-1 rounded-lg border transition-transform hover:scale-110 duration-200"
+                          // animated quantity controls
+                          className="px-3 py-1 rounded-lg border transition-transform duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-veblyssPrimary/20"
                         >
                           -
                         </button>
                         <button
                           onClick={() => updateQuantity(pid, 1)}
-                          className="px-3 py-1 rounded-lg border transition-transform hover:scale-110 duration-200"
+                          className="px-3 py-1 rounded-lg border transition-transform duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-veblyssPrimary/20"
                         >
                           +
                         </button>
 
                         <button
                           onClick={() => removeItem(pid)}
-                          className="ml-auto px-4 py-2 border rounded-lg font-semibold text-red-600 transition-colors hover:bg-red-100 duration-200"
+                          // animated remove button
+                          className="ml-auto px-4 py-2 border rounded-lg font-semibold text-red-600 transition-colors transition-transform duration-200 hover:bg-red-50 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-200"
                         >
                           Remove
                         </button>
@@ -214,10 +218,11 @@ export default function CartPage() {
             </div>
 
             {/* Total Price & Checkout */}
-            <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center mt-6 sticky bottom-0 z-10">
+            <div className="bg-white rounded-xl shadow-lg p-6 text-right flex flex-col md:flex-row justify-between items-center mt-6 sticky bottom-0 z-10 transition-shadow duration-300">
               <button
+                // animated gradient + hover/active transforms + shadow
                 onClick={() => router.push('/contact')}
-                className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold bg-[#368581] text-[#FAF9F6] transition-transform hover:scale-105 duration-300"
+                className="mt-4 md:mt-0 px-6 py-3 rounded-xl font-bold text-[#FAF9F6] bg-gradient-to-r from-[#2aa18a] to-[#368581] hover:from-[#368581] hover:to-[#2aa18a] transition-transform duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#368581]/25"
               >
                 Checkout
               </button>
