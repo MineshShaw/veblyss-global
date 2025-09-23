@@ -20,8 +20,8 @@ const Navbar = () => {
   }, []);
 
   // get user from redux to display initials when logged in
-  const user = useSelector((state: RootState) => state.user as any);
-  const nameOrEmail: string | undefined = user?.name || user?.email;
+  const user = useSelector((state: RootState) => state.user);
+  const nameOrEmail: string | null = user?.name || user?.email;
   const initials = nameOrEmail
     ? nameOrEmail
         .split(" ")
@@ -85,7 +85,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href={link.path}
-                  className={`transition-colors font-serif text-xl sm:text-sm transform transition duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 ${
+                  className={`transition-colors font-serif text-xl sm:text-sm transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 ${
                     pathname === link.path
                       ? "font-bold underline decoration-white/40 underline-offset-4"
                       : "font-normal hover:font-bold"

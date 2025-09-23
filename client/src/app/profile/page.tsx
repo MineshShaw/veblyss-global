@@ -6,7 +6,7 @@ import { RootState } from "@/redux/store";
 import AuthModal from "@/components/AuthModal";
 
 export default function ProfileOverview() {
-  const user = useSelector((state: RootState) => state.user as any);
+  const user = useSelector((state: RootState) => state.user);
 
   // moved here so hooks are called on every render (prevents hooks order mismatch)
   const [mounted, setMounted] = useState(false);
@@ -23,7 +23,7 @@ export default function ProfileOverview() {
   }
 
   // helper to count either arrays or object keys safely
-  const safeCount = (v: any) => {
+  const safeCount = (v: Array<object> | object) => {
     if (!v) return 0;
     if (Array.isArray(v)) return v.length;
     if (typeof v === "object") return Object.keys(v).length;
@@ -53,8 +53,8 @@ export default function ProfileOverview() {
   const cards = [
     // wishlist count now reflects cart product count (from user.cartdata)
     { title: "Wishlist", count: cartCount },
-    { title: "Orders", count: safeCount(user.orderdata) },
-    { title: "Addresses", count: safeCount(user.addressdata) },
+    { title: "Orders", count: safeCount(user.orderdata as Array<object>) },
+    { title: "Addresses", count: safeCount(user.addressdata as Array<object>) },
   ];
 
   const firstName = (user.name || "").split(" ")[0] || user.name;

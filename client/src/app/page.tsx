@@ -253,7 +253,7 @@ export default function Home() {
           </h2>
 
           <div className="flex flex-wrap justify-center gap-8">
-            {markets.map((market, index) => (
+            {markets.map((market) => (
               <div key={market} className="text-center">
                 <div className="h-28 bg-gray-300 rounded-lg w-full mb-4 overflow-hidden">
                   <Image
