@@ -1,12 +1,7 @@
-"use client";
-
-import useCurrentUser from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
-  useCurrentUser();
-
   const productCategories = [
     { name: "Leather Products", href: "/products/leather" },
     { name: "Copper Products", href: "/products/copper" },
@@ -65,14 +60,12 @@ export default function Home() {
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 bottom-[100px]">
             <div className="max-w-6xl absolute flex flex-col items-center top-50">
             <h1
-              className="font-bold text-4xl md:text-6xl lg:text-6xl font-serif mb-6 max-w-6xl"
-              style={{ color: "#FFECE0", fontFamily: "Merryweather" }}
+              className="font-bold text-4xl md:text-5xl lg:text-5xl font-sans mb-6 max-w-6xl text-[#B7D7D1] text-shadow-black"
             >
               Exporting India&apos;s Finest to the World
             </h1>
             <p
-              className="font-semibold text-xl font-sans-serif text-shadow-black md:text-2xl lg:text-2xl mb-12 max-w-4xl"
-              style={{ color: "#FAF9F6", fontFamily: "Open Sans" }}
+              className="font-semibold text-lg font-sans text-white text-shadow-black md:text-xl lg:text-xl mb-12 max-w-4xl"
             >
               From handcrafted elegance to sustainable essentials – delivered
               globally
