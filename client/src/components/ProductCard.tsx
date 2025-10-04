@@ -3,12 +3,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/userSlice";
-import { getCurrentUser } from "@/lib/User";
-import axios from "axios";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/";
 
 interface Product {
   id: string | number;
@@ -18,55 +12,10 @@ interface Product {
 
 export default function ProductCard({
   product,
-  setNotice,
 }: {
   product: Product;
   setNotice: (message: string | null) => void;
 }) {
-  const [loadingAdd, setLoadingAdd] = useState(false);
-  const dispatch = useDispatch();
-
-  const addToCart = async (p: Product) => {
-    setLoadingAdd(true);
-    try {
-      // send productId as string to keep server/client types consistent
-      await axios.post(
-        `${API_URL}api/cart`,
-        {
-          productId: String(p.id),
-          name: p.name,
-          image: p.image || "/images/placeholder.png",
-          quantity: 1,
-        },
-        { withCredentials: true }
-      );
-
-      // fetch updated user with full data
-      const me = await getCurrentUser();
-      const user = me?.user ?? me;
-
-      if (user) {
-        dispatch(
-          setUser({
-            name: user.name ?? null,
-            email: user.email ?? null,
-            cartdata: user.cartdata ?? [],   
-            wishlistdata: user.wishlistdata ?? [],
-            orderdata: user.orderdata ?? [],
-            addressdata: user.addressdata ?? [],
-          })
-        );
-      }
-
-      setNotice("Added to cart");
-    } catch (err) {
-      console.error("addToCart error:", err);
-      setNotice("Add to cart failed");
-    } finally {
-      setLoadingAdd(false);
-      setTimeout(() => setNotice(null), 3000);
-    }
-  };
 
   return (
     <div
@@ -89,21 +38,17 @@ export default function ProductCard({
         </h3>
 
         <div className="flex justify-center gap-4">
-          <button
-            onClick={() => addToCart(product)}
-            // added transform / transition / focus / shadow animations
-            className="bg-veblyssPrimary text-veblyssTextLight font-opensans font-bold text-lg px-6 py-3 rounded-xl hover:bg-opacity-90 transition-transform duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-veblyssPrimary/30 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ backgroundColor: "#368581", color: "#FAF9F6" }}
-            disabled={loadingAdd}
-          >
-            <span className="inline-block transition-transform duration-300 group-hover:translate-y-[-2px]">
-              {loadingAdd ? "Adding..." : "Add to Wishlist"}
-            </span>
-          </button>
+          
 
           <Link
             href="#"
-            // added subtle hover scale and border color shift
+            className="inline-block text-veblyssPrimary font-opensans font-bold text-lg px-4 py-3 rounded-xl border transition-transform duration-300 hover:scale-105 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-veblyssPrimary/20"
+          >
+            Add to Wishlist
+          </Link>
+
+          <Link
+            href="#"
             className="inline-block text-veblyssPrimary font-opensans font-bold text-lg px-4 py-3 rounded-xl border transition-transform duration-300 hover:scale-105 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-veblyssPrimary/20"
           >
             Check More
